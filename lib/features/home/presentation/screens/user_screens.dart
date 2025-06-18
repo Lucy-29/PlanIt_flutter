@@ -17,8 +17,8 @@ class UserScreens extends StatefulWidget {
 }
 
 class _UserScreensState extends State<UserScreens> {
-  static Color _activeColor = Color(0xFF206173);
-  static Color _inActiveColor = Colors.white;
+  static final Color _activeColor = Color(0xFF206173);
+  static final Color _inActiveColor = Colors.white;
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
