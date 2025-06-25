@@ -1,0 +1,13 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  color: "#F4F2EA"
+  image: "assets/images/logo-removebg-preview.png"
+  # image: "assets/images/logo.jpg"
+  image_dark: "assets/images/logo-removebg-preview.png"
+  
+  android_12:
+    color: "#F4F2EA"
+    image: "assets/images/logo-removebg-preview.png"

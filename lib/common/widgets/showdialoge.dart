@@ -43,11 +43,11 @@ class ShowdialogeState extends State<Showdialoge> {
               controller: otpController,
               hintText: '6 Digit Code',
               keyboardType: TextInputType.number,
-              validator: (Value) {
-                if (Value == null || Value.isEmpty) {
+              validator: (value) {
+                if (value == null || value.isEmpty) {
                   return 'Please enter OTP Code';
                 }
-                if (Value.length < 6) {
+                if (value.length < 6) {
                   return 'OTP must be at least 6 digits';
                 }
                 return null;

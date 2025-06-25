@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Favoritescreen extends StatelessWidget {
-  const Favoritescreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('fav'),
+        title: Text('set'),
       ),
     );
   }

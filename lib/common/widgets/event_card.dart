@@ -1,11 +1,12 @@
 import 'dart:ui';
 
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
+import 'package:ems_1/features/home/presentation/screens/event_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final EventCardModel eventCardModel;
-  EventCard({
+  const EventCard({
     required this.eventCardModel,
     super.key,
   });
@@ -13,7 +14,11 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context)=> ));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    EventDetailsScreen(eventCardModel: eventCardModel)));
       },
       // borderRadius: BorderRadius.circular(20),
 
@@ -130,7 +135,6 @@ class EventCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.location_on,
-                color: Colors.black54,
               ),
               Text(
                 eventCardModel.location,

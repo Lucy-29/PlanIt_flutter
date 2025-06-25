@@ -62,8 +62,8 @@ class SignupOptionsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      Image.asset('assets/Picsart_girl.png'),
-                      Image.asset('assets/Picsart_boy.png'),
+                      Image.asset('assets/images/Picsart_girl.png'),
+                      Image.asset('assets/images/Picsart_boy.png'),
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: () {
@@ -98,7 +98,7 @@ class SignupOptionsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      Image.asset('assets/Picsart_provider.png'),
+                      Image.asset('assets/images/Picsart_provider.png'),
                       const SizedBox(width: 30),
                       TextButton(
                         onPressed: () {
@@ -133,7 +133,7 @@ class SignupOptionsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      Image.asset('assets/Picsart_Company.png'),
+                      Image.asset('assets/images/Picsart_Company.png'),
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: () {

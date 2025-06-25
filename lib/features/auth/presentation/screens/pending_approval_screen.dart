@@ -44,7 +44,7 @@ class PendingApprovalScreen extends StatelessWidget {
 
               if (state is ApprovalStatusApproved) {
                 return _StatusView(
-                  imagePath: 'assets/approved.png',
+                  imagePath: 'assets/images/approved.png',
                   title: "Congratulations, ${state.status.name}!",
                   message:
                       "Your application has been approved. You can now log in to access your account.",
@@ -58,7 +58,7 @@ class PendingApprovalScreen extends StatelessWidget {
 
               if (state is ApprovalFailure) {
                 return _StatusView(
-                  imagePath: 'assets/rejected.png',
+                  imagePath: 'assets/images/rejected.png',
                   title: "Application Not Approved",
                   message:
                       "We're sorry, but your application could not be approved at this time. Please contact support for more information.",
@@ -73,7 +73,7 @@ class PendingApprovalScreen extends StatelessWidget {
               // By default (including Initial and Pending states), show the pending view.
               // A loading indicator is shown inside the _StatusView for a better UX.
               return _StatusView(
-                imagePath: 'assets/Picsart_waitingscreen.png',
+                imagePath: 'assets/images/Picsart_waitingscreen.png',
                 title: "Your Application is Under Review",
                 message:
                     "Thank you for registering, ${request.name}.\nYour service application is pending approval by an administrator. Please check back later.",

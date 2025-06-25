@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class PopularWidget extends StatelessWidget {
   final List<EventCardModel> event;
-  PopularWidget({required this.event, super.key});
+  const PopularWidget({required this.event, super.key});
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
