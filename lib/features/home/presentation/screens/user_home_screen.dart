@@ -1,7 +1,9 @@
 import 'package:ems_1/common/widgets/custom_search_bar.dart';
 import 'package:ems_1/common/widgets/invitefreinds.dart';
-import 'package:ems_1/common/widgets/popular_widget.dart';
+import 'package:ems_1/common/widgets/popular_events_widget.dart';
+import 'package:ems_1/common/widgets/service_provider_widget.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
+import 'package:ems_1/features/home/data/models/service_card_model.dart';
 import 'package:flutter/material.dart';
 
 class UserHomeScreen extends StatelessWidget {
@@ -65,6 +67,52 @@ class UserHomeScreen extends StatelessWidget {
     ),
   ];
 
+  final List<ServiceCardModel> dummyServices = [
+    ServiceCardModel(
+      providerName: 'Salon Sarah',
+      serviceName: 'Hair Styling & Beauty',
+      location: 'Damascus',
+      placeImageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      providerImageUrl:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      description:
+          'Expert beauty services from trained professionals in a relaxing environment.',
+    ),
+    ServiceCardModel(
+      providerName: 'FixIt Co.',
+      serviceName: 'Home Repair Services',
+      location: 'Homs',
+      placeImageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      providerImageUrl:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      description:
+          'Reliable home maintenance and repair for appliances and furniture.',
+    ),
+    ServiceCardModel(
+      providerName: 'FixIt Co.',
+      serviceName: 'Home Repair Services',
+      location: 'Homs',
+      placeImageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      providerImageUrl:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      description:
+          'Reliable home maintenance and repair for appliances and furniture.',
+    ),
+    ServiceCardModel(
+      providerName: 'FixIt Co.',
+      serviceName: 'Home Repair Services',
+      location: 'Homs',
+      placeImageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      providerImageUrl:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      description:
+          'Reliable home maintenance and repair for appliances and furniture.',
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,9 +124,9 @@ class UserHomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: ListView(
                 children: [
-                  PopularWidget(event: dummyList),
+                  PopularEventsWidget(event: dummyList),
                   Invitefreinds(),
-                  // ListView.builder(itemBuilder: itemBuilder)
+                  ServiceProviderWidget(serviceCardModel: dummyServices),
                 ],
               ),
             ),

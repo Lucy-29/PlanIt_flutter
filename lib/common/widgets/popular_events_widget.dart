@@ -3,9 +3,9 @@ import 'package:ems_1/features/home/data/models/event_card_model.dart';
 import 'package:ems_1/features/home/presentation/screens/popular_events_screen.dart';
 import 'package:flutter/material.dart';
 
-class PopularWidget extends StatelessWidget {
+class PopularEventsWidget extends StatelessWidget {
   final List<EventCardModel> event;
-  const PopularWidget({required this.event, super.key});
+  const PopularEventsWidget({required this.event, super.key});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -14,13 +14,11 @@ class PopularWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'popular events',
                 style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                width: 70,
               ),
               TextButton(
                 onPressed: () {

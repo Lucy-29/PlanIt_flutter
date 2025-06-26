@@ -92,7 +92,7 @@ class EventCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
@@ -115,30 +115,29 @@ class EventCard extends StatelessWidget {
         children: [
           Text(
             eventCardModel.title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
             children: [
-              Icon(
-                Icons.people,
-              ),
+              Icon(Icons.people),
               Text(
                 '+${eventCardModel.goingCount} Going',
                 style: TextStyle(
                     color: Colors.black54, fontWeight: FontWeight.w500),
-              )
+              ),
             ],
           ),
           Row(
             children: [
-              Icon(
-                Icons.location_on,
-              ),
+              Icon(Icons.location_on),
               Text(
                 eventCardModel.location,
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               )

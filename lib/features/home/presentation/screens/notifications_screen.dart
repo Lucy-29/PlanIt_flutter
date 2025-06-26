@@ -10,6 +10,8 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Color(0xFFF4F2EA),
@@ -29,7 +31,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               SizedBox(
                 height: 100,
               ),
-              Image.asset('assets/images/notification pic.png'),
+              Image.asset(isDark
+                  ? 'assets/images/notifications_darkmode.png'
+                  : 'assets/images/notification pic.png'),
               SizedBox(
                 height: 32,
               ),

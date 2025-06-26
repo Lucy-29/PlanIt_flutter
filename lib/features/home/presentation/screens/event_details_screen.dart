@@ -60,16 +60,23 @@ class EventDetailsScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              NetworkImage(eventCardModel.organizerImage),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundImage:
+                                  NetworkImage(eventCardModel.organizerImage),
+                            ),
+                            SizedBox(width: 15),
+                            Text(
+                              eventCardModel.organizer,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 15),
-                        Text(eventCardModel.organizer),
-                        SizedBox(width: 200),
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -179,7 +186,7 @@ class EventDetailsScreen extends StatelessWidget {
                     height: 35,
                     margin: EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
-                      color: Color(0xFF1a5f33), // Dark green circle background
+                      color: Color(0xFF1a5f33),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
