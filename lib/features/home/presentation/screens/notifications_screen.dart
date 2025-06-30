@@ -29,7 +29,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               SizedBox(
                 height: 100,
               ),
-              Image.asset('assets/notification pic.png'),
+              Image.asset('assets/images/notification pic.png'),
               SizedBox(
                 height: 32,
               ),

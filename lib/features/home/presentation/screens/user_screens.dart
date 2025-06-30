@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'package:ems_1/features/home/presentation/screens/calendarScreen.dart';
-import 'package:ems_1/features/home/presentation/screens/favoriteScreen.dart';
+import 'package:ems_1/features/home/Favorite/screens/favoriteScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/settingsScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
 import 'package:ems_1/core/themes/app_themes.dart';
@@ -60,32 +60,7 @@ class _UserScreensState extends State<UserScreens> {
 
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(
-        // backgroundColor: Color(0xFFF4F2EA),
-        title: Text(
-          'PLANIT',
-          //   style: TextStyle(
-          //       color: Color(0xFF206173),
-          //       fontSize: 40,
-          //       fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotificationsScreen()));
-            },
-            icon: Icon(
-              Icons.notifications_outlined,
-              // size: 30,
-              // color: Color(0xFF206173),
-            ),
-          )
-        ],
-      ),
+      
       // backgroundColor: Color(0xFFF4F2EA),
       body: _screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(

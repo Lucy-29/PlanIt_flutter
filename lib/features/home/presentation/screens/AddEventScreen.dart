@@ -7,7 +7,9 @@ class Addeventscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("add event"),
+        title: Text("Create Event"),
+        // backgroundColor: Color(0xFFF4F2EA),
+        centerTitle: true,
       ),
     );
   }
