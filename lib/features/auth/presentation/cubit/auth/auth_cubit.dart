@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/models/base_user_model.dart';
 import '../../../domain/repositories/auth_repository.dart';
 

@@ -1,11 +1,12 @@
 import 'dart:ui';
 
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
+import 'package:ems_1/features/home/presentation/screens/event_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final EventCardModel eventCardModel;
-  EventCard({
+  const EventCard({
     required this.eventCardModel,
     super.key,
   });
@@ -13,7 +14,11 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context)=> ));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    EventDetailsScreen(eventCardModel: eventCardModel)));
       },
       // borderRadius: BorderRadius.circular(20),
 
@@ -113,31 +118,29 @@ class EventCard extends StatelessWidget {
         children: [
           Text(
             eventCardModel.title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
             children: [
-              Icon(
-                Icons.people,
-              ),
+              Icon(Icons.people),
               Text(
                 '+${eventCardModel.goingCount} Going',
                 style: TextStyle(
                     color: Colors.black54, fontWeight: FontWeight.w500),
-              )
+              ),
             ],
           ),
           Row(
             children: [
-              Icon(
-                Icons.location_on,
-                color: Colors.black54,
-              ),
+              Icon(Icons.location_on),
               Text(
                 eventCardModel.location,
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               )

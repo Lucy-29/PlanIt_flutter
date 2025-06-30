@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ems_1/features/auth/data/models/service_item_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'service_selection_state.dart';
 

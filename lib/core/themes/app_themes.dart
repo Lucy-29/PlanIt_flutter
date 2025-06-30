@@ -17,14 +17,17 @@ class AppThemes {
         color: Color(0xFF206173),
       ),
     ),
-
+    iconButtonTheme: IconButtonThemeData(style: ButtonStyle()),
+    iconTheme: IconThemeData(
+      color: Color(0xFF206173),
+      size: 30,
+    ),
     colorScheme: ColorScheme.light(
       primary: Color(0xFF206173),
       secondary: Color(0xFF50C878),
       background: Color(0xFFF4F2EA),
       // surface: ,
     ),
-    // iconTheme: IconThemeData(color: Color(0xFF206173)),
   );
   final darkTheme = ThemeData(
     brightness: Brightness.dark,
@@ -48,6 +51,9 @@ class AppThemes {
       background: Color(0xFF192428),
       // surface: Color(0xFF2C3E45),
     ),
-    // iconTheme: IconThemeData(color: Colors.tealAccent),
+    iconTheme: IconThemeData(
+      color: Color(0xFFF4F2EA),
+      size: 30,
+    ),
   );
 }

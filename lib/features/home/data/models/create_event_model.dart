@@ -6,6 +6,7 @@ class CreateEventModel {
   final String privacy;
   final String type;
   final String location;
+
   CreateEventModel({
     required this.name,
     required this.dateTime,
