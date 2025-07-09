@@ -42,7 +42,7 @@ class AppThemes {
       ),
       titleTextStyle: TextStyle(
         color: Color(0xFFF4F2EA),
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: FontWeight.bold,
       ),
     ),

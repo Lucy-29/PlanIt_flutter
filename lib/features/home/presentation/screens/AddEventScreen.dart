@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class Addeventscreen extends StatelessWidget {
+  const Addeventscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text("Create Event"),
         // backgroundColor: Color(0xFFF4F2EA),
         centerTitle: true,
       ),

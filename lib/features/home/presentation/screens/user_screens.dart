@@ -1,10 +1,12 @@
+import 'package:ems_1/core/themes/app_themes.dart';
+import 'package:ems_1/features/home/presentation/screens/AddEventScreen.dart';
+import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
+import 'package:ems_1/features/home/presentation/screens/settings_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
-import 'package:ems_1/features/home/presentation/screens/favorite_screen.dart';
-import 'package:ems_1/features/home/presentation/screens/settings_screen.dart';
+import 'package:ems_1/features/home/presentation/screens/favorite/favoriteScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
 
 class UserScreens extends StatefulWidget {
@@ -22,7 +24,8 @@ class _UserScreensState extends State<UserScreens> {
   final List<Widget> _screens = [
     UserHomeScreen(),
     CalendarScreen(),
-    FavoriteScreen(),
+    Addeventscreen(),
+    Favoritescreen(),
     SettingsScreen(),
   ];
 
@@ -40,46 +43,23 @@ class _UserScreensState extends State<UserScreens> {
         size: 30,
         color: _selectedIndex == 1 ? _activeColor : _inActiveColor,
       ),
+      Icon(Icons.add_circle,
+          size: 40, color: _selectedIndex == 2 ? _activeColor : _inActiveColor),
       Icon(
         Icons.favorite_outline,
         size: 30,
-        color: _selectedIndex == 2 ? _activeColor : _inActiveColor,
+        color: _selectedIndex == 3 ? _activeColor : _inActiveColor,
       ),
       Icon(
         Icons.settings_outlined,
         size: 30,
-        color: _selectedIndex == 3 ? _activeColor : _inActiveColor,
+        color: _selectedIndex == 4 ? _activeColor : _inActiveColor,
       ),
     ];
 
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(
-        // backgroundColor: Color(0xFFF4F2EA),
-        title: Text(
-          'PLANIT',
-          //   style: TextStyle(
-          //       color: Color(0xFF206173),
-          //       fontSize: 40,
-          //       fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotificationsScreen()));
-            },
-            icon: Icon(
-              Icons.notifications_outlined,
-              // size: 30,
-              // color: Color(0xFF206173),
-            ),
-          )
-        ],
-      ),
+
       // backgroundColor: Color(0xFFF4F2EA),
       body: _screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
