@@ -42,7 +42,7 @@ class ThirdScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  'Share your services and find the perfect customers for you',
+                  'Share your services and find the perfect customers for you.',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,

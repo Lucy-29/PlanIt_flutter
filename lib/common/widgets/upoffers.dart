@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ems_1/features/home/data/models/offer_model.dart';
+import 'package:lottie/lottie.dart';
 
 class Upoffers extends StatefulWidget {
   final List<OfferModel> offList;
@@ -36,7 +37,7 @@ class _UpoffersState extends State<Upoffers> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 220,
+      height: 210,
       width: double.infinity,
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -45,9 +46,11 @@ class _UpoffersState extends State<Upoffers> {
             controller: _pageController,
             itemCount: widget.offList.length,
             itemBuilder: (context, i) {
-              return Image.asset(
+              return Lottie.asset(
                 widget.offList[i].img,
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.cover,
+                repeat: true,
+                reverse: true,
               );
             },
           ),

@@ -41,7 +41,7 @@ class FourthScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  'Simply share your projects and parties and let people have fun with you',
+                  'Simply share your projects and parties and let people have fun with you.',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,

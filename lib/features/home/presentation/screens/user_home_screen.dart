@@ -12,9 +12,12 @@ import 'package:flutter/material.dart';
 class UserHomeScreen extends StatelessWidget {
   UserHomeScreen({super.key});
   final List<OfferModel> offlist = [
-    OfferModel(img: "assets/images/offer1.jpeg"),
-    OfferModel(img: "assets/images/offer2.jpeg"),
-    OfferModel(img: "assets/images/offer2.jpeg"),
+    OfferModel(img: "assets/lottie/offer1.json"),
+    OfferModel(img: "assets/lottie/offer2.json"),
+    OfferModel(img: "assets/lottie/Time management.json"),
+    OfferModel(img: 'assets/lottie/Core-Apps Associations.json'),
+    OfferModel(img: 'assets/lottie/Calendar image animation.json'),
+    OfferModel(img: 'assets/lottie/business-ideas.json'),
   ];
   final List<EventCardModel> dummyList = [
     EventCardModel(
@@ -147,13 +150,14 @@ class UserHomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            Upoffers(offList: offlist),
+            // Upoffers(offList: offlist),
             Padding(
-              padding: const EdgeInsets.only(top: 220),
+              padding: const EdgeInsets.only(top: 0),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: ListView(
                   children: [
+                    Upoffers(offList: offlist),
                     PopularEventsWidget(event: dummyList),
                     Invitefreinds(),
                     ServiceProviderWidget(serviceCardModel: dummyServices),

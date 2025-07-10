@@ -31,7 +31,8 @@ class FirstScreen extends StatelessWidget {
                 height: 30,
               ),
               Lottie.asset(
-                'assets/lottie/introhost1.json',
+                'assets/lottie/Expo Logic Budget for In-Person Events Hero.json',
+                // 'assets/lottie/introhost1.json',
                 reverse: true,
                 repeat: true,
                 fit: BoxFit.cover,
