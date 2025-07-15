@@ -1,3 +1,5 @@
+import 'package:ems_1/features/auth/domain/repositories/auth_repository.dart';
+import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
 import 'package:ems_1/features/home/presentation/cubit/themes/themes_cubit.dart';
 import 'package:ems_1/features/home/presentation/screens/settings/contactus_screen.dart';
@@ -7,15 +9,15 @@ import 'package:ems_1/features/home/presentation/screens/settings/termsandcondit
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
+import 'dart:io';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
+  // File? _profileImage;
   @override
   Widget build(BuildContext context) {
-    // We use the theme from the context to get colors, so it will
-    // automatically adapt when we add the ThemeCubit later.
-    // final theme = Theme.of(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,19 +32,19 @@ class SettingsScreen extends StatelessWidget {
         children: [
           _buildProfileCard(context),
           const SizedBox(height: 20),
-          _buildToggleItem(
-            context: context,
-            title: 'Notification',
-            value: true,
-            onChanged: (value) {},
-          ),
-          const SizedBox(height: 8),
+          // _buildToggleItem(
+          //   context: context,
+          //   title: 'Notification',
+          //   value: true,
+          //   onChanged: (value) {},
+          // ),
+          // const SizedBox(height: 5),
           _buildToggleItem(
             context: context,
             title: 'Dark Mode',
-            value: context.watch<ThemeCubit>().state is ThemesDark,
+            value: context.watch<ThemesCubit>().state is ThemesDark,
             onChanged: (value) {
-              context.read<ThemeCubit>().toggleTheme(value);
+              context.read<ThemesCubit>().toggleTheme(value);
             },
           ),
           const SizedBox(height: 20),
@@ -115,17 +117,16 @@ class SettingsScreen extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()));
+        onTap: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfileScreen(),
+            ),
+          );
         },
-        leading: const CircleAvatar(
-          radius: 28,
-          backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=lana'),
-        ),
-        title:
-            const Text('user', style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: const Text('name,email,phone,....'),
+        title: const Text('Profile',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
       ),
     );

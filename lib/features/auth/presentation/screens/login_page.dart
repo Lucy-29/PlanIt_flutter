@@ -1,6 +1,7 @@
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/screens/signup_options_page.dart';
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
+import 'package:ems_1/features/home/presentation/screens/user_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ems_1/features/auth/domain/repositories/auth_repository.dart';
@@ -15,10 +16,43 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xFFF4F2EA),
-      body: BlocProvider(
-        create: (context) => LoginCubit(sl<AuthRepository>()),
-        child: const LoginForm(),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => LoginCubit(sl<AuthRepository>())),
+          BlocProvider<AuthCubit>.value(
+            value: context.read<AuthCubit>(), // ✅ reuse existing instance
+          ),
+        ],
+        child: BlocListener<AuthCubit, AuthState>(
+          listener: (context, authState) {
+            if (authState is Authenticated) {
+              print(
+                  'HEREEEEE I AMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserScreens()));
+              // final user = authState.user;
+
+              // if (user.type == 'user') {
+              //   Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(builder: (_) => const UserScreens()),
+              //   );
+              // }
+              // else if (user.type == 'provider') {
+              //   Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(builder: (_) => const ProviderHomeScreen()),
+              //   );
+              // } else if (user.type == 'company') {
+              //   Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(builder: (_) => const CompanyHomeScreen()),
+              //   );
+              // }
+            }
+          },
+          child: const LoginForm(),
+        ),
       ),
     );
   }
@@ -46,6 +80,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _login() {
+    print(
+        'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     if (_formKey.currentState!.validate()) {
       context.read<LoginCubit>().login(
             email: emailController.text.trim(),
@@ -116,6 +152,7 @@ class _LoginFormState extends State<LoginForm> {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 150),
                   const Padding(
@@ -143,7 +180,6 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   const SizedBox(height: 130),
-                  // Your existing form fields are mostly unchanged
                   Padding(
                     padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                     child: CustomTextFormField(
@@ -193,7 +229,28 @@ class _LoginFormState extends State<LoginForm> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 35.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Forgotpassword(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Forgot Password',
+                        style: TextStyle(
+                          // color: Color(0xFF206473),
+                          fontWeight: FontWeight.bold,
+                          // fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -216,12 +273,12 @@ class _LoginFormState extends State<LoginForm> {
                             return ElevatedButton(
                               onPressed: () {
                                 _login();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UserHomeScreen(),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => UserScreens(),
+                                //   ),
+                                // );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFF50C878),
@@ -238,10 +295,17 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 150),
+                  SizedBox(
+                    height: 20,
+                  ),
+
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        'Don\'t have an account?',
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -251,42 +315,64 @@ class _LoginFormState extends State<LoginForm> {
                             ),
                           );
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 35),
-                          child: Text(
-                            'Sign up',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              // color: Color(0xFF206473),
-                              fontSize: 20,
-                            ),
+                        child: Text(
+                          'Sign up',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 35),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Forgotpassword(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'Forgot Password',
-                            style: TextStyle(
-                              // color: Color(0xFF206473),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      )
                     ],
                   ),
+                  // const SizedBox(height: 150),
+                  // Column(
+                  //   // mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     TextButton(
+                  //       onPressed: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) => SignupOptionsPage(),
+                  //           ),
+                  //         );
+                  //       },
+                  //       child: const Padding(
+                  //         padding: EdgeInsets.only(left: 35),
+                  //         child: Text(
+                  //           'Sign up',
+                  //           style: TextStyle(
+                  //             fontWeight: FontWeight.bold,
+                  //             // color: Color(0xFF206473),
+                  //             fontSize: 20,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     // const Spacer(),
+                  //     // Padding(
+                  //     //   padding: const EdgeInsets.only(right: 35),
+                  //     //   child: TextButton(
+                  //     //     onPressed: () {
+                  //     //       Navigator.push(
+                  //     //         context,
+                  //     //         MaterialPageRoute(
+                  //     //           builder: (context) => Forgotpassword(),
+                  //     //         ),
+                  //     //       );
+                  //     //     },
+                  //     //     child: const Text(
+                  //     //       'Forgot Password',
+                  //     //       style: TextStyle(
+                  //     //         // color: Color(0xFF206473),
+                  //     //         fontWeight: FontWeight.bold,
+                  //     //         fontSize: 20,
+                  //     //       ),
+                  //     //     ),
+                  //     //   ),
+                  //     // )
+                  //   ],
+                  // ),
                   const SizedBox(height: 20),
                 ],
               ),

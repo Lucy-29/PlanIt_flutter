@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 
 part 'themes_state.dart';
 
-class ThemeCubit extends Cubit<ThemesState> {
-  ThemeCubit() : super(ThemesLight());
+class ThemesCubit extends Cubit<ThemesState> {
+  ThemesCubit() : super(ThemesLight());
 
   void toggleTheme(bool isDark) {
     if (isDark) {

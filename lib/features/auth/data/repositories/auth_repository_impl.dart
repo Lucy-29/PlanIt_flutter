@@ -102,7 +102,6 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  // No change needed
   @override
   Future<LoginResponseModel> login(
       {required String email, required String password}) async {
@@ -118,7 +117,6 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  // No change needed
   @override
   Future<void> logout() async {
     try {
@@ -128,7 +126,6 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  // No change needed
   @override
   Future<ApprovalStatusModel> checkApprovalStatus(
       {required String email}) async {
@@ -141,24 +138,17 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<BaseUserModel?> getAuthenticatedUser() async {
-    // 1. Check if a token exists locally
     final token = await secureStorageService.getToken();
     if (token == null) {
-      return null; // No token, definitely not authenticated
+      return null;
     }
 
-    // 2. Try to fetch the user data from the server using the token
     try {
-      // This will make a call to a protected '/api/user' endpoint
       final userJson = await apiDatasource.getAuthenticatedUser();
 
-      // 3. Use our smart factory to parse the user data
       return BaseUserModel.fromJson(userJson);
     } catch (e) {
-      // Any error (e.g., 401 Unauthorized, network failure) means authentication fails
-      // We might want to log the error for debugging
-      // print(e);
-      await secureStorageService.deleteToken(); // Clean up invalid token
+      await secureStorageService.deleteToken();
       return null;
     }
   }

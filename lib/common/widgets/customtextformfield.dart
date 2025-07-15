@@ -25,8 +25,12 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       keyboardType: keyboardType,
       decoration: InputDecoration(
+        fillColor: Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey[700]
+            : Colors.grey[300],
+
         filled: true,
-        fillColor: Colors.grey[300],
+        // fillColor: Colors.grey[300],
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.black, fontSize: 20),
         border: OutlineInputBorder(

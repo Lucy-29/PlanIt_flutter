@@ -17,7 +17,13 @@ class LoginCubit extends Cubit<LoginState> {
         email: email,
         password: password,
       );
-      emit(LoginSuccess(response));
+      // emit(LoginSuccess(response));
+      if (response.user != null) {
+        emit(LoginSuccess(response));
+      } else {
+        emit(LoginFailure("Login response missing user data"));
+      }
+      print('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
     } catch (e) {
       emit(LoginFailure(e.toString()));
     }

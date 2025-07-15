@@ -1,9 +1,11 @@
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
-import 'package:ems_1/features/splashscreens/screens/first_screen.dart';
-import 'package:ems_1/features/splashscreens/screens/fourth_screen.dart';
-import 'package:ems_1/features/splashscreens/screens/second_screen.dart';
-import 'package:ems_1/features/splashscreens/screens/third_screen.dart';
+import 'package:ems_1/features/splashscreens/presentation/cubit/splashscreen_cubit/splash_screen_cubit.dart';
+import 'package:ems_1/features/splashscreens/presentation/screens/first_screen.dart';
+import 'package:ems_1/features/splashscreens/presentation/screens/fourth_screen.dart';
+import 'package:ems_1/features/splashscreens/presentation/screens/second_screen.dart';
+import 'package:ems_1/features/splashscreens/presentation/screens/third_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SplashScreens extends StatefulWidget {
@@ -60,9 +62,16 @@ class _SplashScreensState extends State<SplashScreens> {
                             ),
                           );
                         },
-                        child: Text(
-                          'Done',
-                          style: TextStyle(color: Colors.black),
+                        child: TextButton(
+                          child: Text(
+                            'Done',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          onPressed: () {
+                            context
+                                .read<SplashScreenCubit>()
+                                .markSplashScreensAsComplete();
+                          },
                         ),
                       )
                     : TextButton(

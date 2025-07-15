@@ -43,6 +43,8 @@ dependencies:
   flutter_native_splash: ^2.4.4
   share_plus: 7.0.2
   url_launcher: ^6.1.10
+  image_picker: ^1.1.1
+  shared_preferences: ^2.2.2
 
 
 
@@ -50,6 +52,14 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
+
+flutter_icons:
+  android: true
+  image_path: "assets/images/logo-removebg-preview.png"
+
+
+
 
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.

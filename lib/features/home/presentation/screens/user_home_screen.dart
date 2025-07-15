@@ -13,11 +13,11 @@ class UserHomeScreen extends StatelessWidget {
   UserHomeScreen({super.key});
   final List<OfferModel> offlist = [
     OfferModel(img: "assets/lottie/offer1.json"),
-    OfferModel(img: "assets/lottie/offer2.json"),
     OfferModel(img: "assets/lottie/Time management.json"),
     OfferModel(img: 'assets/lottie/Core-Apps Associations.json'),
     OfferModel(img: 'assets/lottie/Calendar image animation.json'),
-    OfferModel(img: 'assets/lottie/business-ideas.json'),
+    OfferModel(img: "assets/lottie/offer2.json"),
+    // OfferModel(img: 'assets/lottie/business-ideas.json'),
   ];
   final List<EventCardModel> dummyList = [
     EventCardModel(

@@ -13,6 +13,7 @@ class AuthLoading extends AuthState {}
 class Authenticated extends AuthState {
   final BaseUserModel user;
   const Authenticated({required this.user});
+
   @override
   List<Object?> get props => [user];
 }
