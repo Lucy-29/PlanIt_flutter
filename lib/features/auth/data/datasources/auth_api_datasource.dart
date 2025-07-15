@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import '../models/approval_status_model.dart';
-import '../models/login_response_model.dart';
-import '../models/provider_request_model.dart';
+import 'package:ems_1/features/auth/data/models/approval_status_model.dart';
+import 'package:ems_1/features/auth/data/models/login_response_model.dart';
+import 'package:ems_1/features/auth/data/models/provider_request_model.dart';
 
 class AuthApiDatasource {
   final Dio dio;

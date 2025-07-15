@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
+import 'package:ems_1/features/home/presentation/screens/event_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
@@ -13,7 +14,11 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context)=> ));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    EventDetailsScreen(eventCardModel: eventCardModel)));
       },
       // borderRadius: BorderRadius.circular(20),
 
@@ -68,14 +73,14 @@ class EventCard extends StatelessWidget {
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.black87),
+                      color: Color(0xff206173)),
                 ),
                 Text(
                   eventCardModel.date.substring(3),
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.black87),
+                      color: Color(0xff206173)),
                 ),
               ],
             ),
@@ -87,14 +92,17 @@ class EventCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withOpacity(0.1),
                 ),
                 child: IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.favorite_border_outlined)),
+                    icon: Icon(
+                      Icons.favorite_border_outlined,
+                      color: Color(0xffD99A9A),
+                    )),
               ),
             ),
           ),
@@ -110,31 +118,29 @@ class EventCard extends StatelessWidget {
         children: [
           Text(
             eventCardModel.title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
             children: [
-              Icon(
-                Icons.people,
-              ),
+              Icon(Icons.people),
               Text(
                 '+${eventCardModel.goingCount} Going',
                 style: TextStyle(
                     color: Colors.black54, fontWeight: FontWeight.w500),
-              )
+              ),
             ],
           ),
           Row(
             children: [
-              Icon(
-                Icons.location_on,
-                color: Colors.black54,
-              ),
+              Icon(Icons.location_on),
               Text(
                 eventCardModel.location,
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               )

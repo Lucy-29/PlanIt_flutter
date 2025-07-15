@@ -11,6 +11,12 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
+      organizer: 'Ted',
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: '100',
     ),
     EventCardModel(
       imageUrl:
@@ -19,6 +25,12 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
+      organizer: 'Ted',
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: '2000',
     ),
     EventCardModel(
       imageUrl:
@@ -27,6 +39,12 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
+      organizer: 'Ted',
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: '20',
     ),
     EventCardModel(
       imageUrl:
@@ -35,6 +53,12 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
+      organizer: 'Ted',
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: '300',
     ),
   ];
 

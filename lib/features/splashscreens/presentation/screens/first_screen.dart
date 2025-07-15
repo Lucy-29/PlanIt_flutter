@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class FourthScreen extends StatelessWidget {
-  const FourthScreen({super.key});
+class FirstScreen extends StatelessWidget {
+  const FirstScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +14,14 @@ class FourthScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'As a Company...',
+                'Hello User!!',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                 ),
               ),
               Text(
-                'You Can..',
+                'Let\'s quickly go through the highlights of our app.',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -31,7 +31,8 @@ class FourthScreen extends StatelessWidget {
                 height: 30,
               ),
               Lottie.asset(
-                'assets/lottie/company.json',
+                'assets/lottie/Expo Logic Budget for In-Person Events Hero.json',
+                // 'assets/lottie/introhost1.json',
                 reverse: true,
                 repeat: true,
                 fit: BoxFit.cover,
@@ -41,7 +42,7 @@ class FourthScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  'Simply share your projects and parties and let people have fun with you',
+                  'Our app provides a platform where anyone can organize and attend events.',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,

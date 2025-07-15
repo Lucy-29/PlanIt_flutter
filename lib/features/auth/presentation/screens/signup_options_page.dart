@@ -1,3 +1,4 @@
+import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
 import 'package:ems_1/features/auth/presentation/screens/service_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ems_1/features/auth/presentation/screens/registration_type.dart';
@@ -37,10 +38,11 @@ class SignupOptionsPage extends StatelessWidget {
             ),
           ),
           Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const SizedBox(height: 170),
+              const SizedBox(height: 120),
               const Padding(
-                padding: EdgeInsets.only(right: 90),
+                padding: EdgeInsets.only(right: 100),
                 child: Text(
                   'Who You Are',
                   style: TextStyle(
@@ -50,7 +52,7 @@ class SignupOptionsPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 130),
+              const SizedBox(height: 100),
               Container(
                 height: 120,
                 width: 330,
@@ -62,8 +64,8 @@ class SignupOptionsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      Image.asset('assets/Picsart_girl.png'),
-                      Image.asset('assets/Picsart_boy.png'),
+                      Image.asset('assets/images/Picsart_girl.png'),
+                      Image.asset('assets/images/Picsart_boy.png'),
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: () {
@@ -98,7 +100,7 @@ class SignupOptionsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      Image.asset('assets/Picsart_provider.png'),
+                      Image.asset('assets/images/Picsart_provider.png'),
                       const SizedBox(width: 30),
                       TextButton(
                         onPressed: () {
@@ -133,7 +135,7 @@ class SignupOptionsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      Image.asset('assets/Picsart_Company.png'),
+                      Image.asset('assets/images/Picsart_Company.png'),
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: () {
@@ -156,21 +158,17 @@ class SignupOptionsPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: TextButton(
-                      onPressed: () {
-                        //
-                        //
-                      },
-                      child: const Text(
+                      onPressed: () {},
+                      child: Text(
                         'continue as guest',
                         style: TextStyle(
-                          // color: Color(0xFF206473),
                           fontSize: 20,
                         ),
                       ),
@@ -178,6 +176,24 @@ class SignupOptionsPage extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Already have an account?',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      },
+                      child: Text('Login')),
+                ],
+              )
             ],
           )
         ],

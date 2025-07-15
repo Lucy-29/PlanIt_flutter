@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class ThirdScreen extends StatelessWidget {
-  const ThirdScreen({super.key});
+class FourthScreen extends StatelessWidget {
+  const FourthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ThirdScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'As a Provider...',
+                'As a Company...',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
@@ -31,8 +31,7 @@ class ThirdScreen extends StatelessWidget {
                 height: 30,
               ),
               Lottie.asset(
-                'assets/lottie/services.json',
-                // 'assets/services1.json',
+                'assets/lottie/company.json',
                 reverse: true,
                 repeat: true,
                 fit: BoxFit.cover,
@@ -42,7 +41,7 @@ class ThirdScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  'Share your services and find the perfect customers for you',
+                  'Simply share your projects and parties and let people have fun with you.',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
