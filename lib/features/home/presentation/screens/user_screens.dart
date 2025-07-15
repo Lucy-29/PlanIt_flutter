@@ -1,4 +1,3 @@
-import 'package:ems_1/core/themes/app_themes.dart';
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -7,7 +6,6 @@ import 'package:ems_1/features/home/presentation/screens/calendarScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/favoriteScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/settingsScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
-import 'package:ems_1/core/themes/app_themes.dart';
 
 class UserScreens extends StatefulWidget {
   const UserScreens({super.key});
@@ -31,7 +29,7 @@ class _UserScreensState extends State<UserScreens> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final List<Widget> _navBarItems = <Widget>[
+    final List<Widget> navBarItems = <Widget>[
       Icon(
         Icons.home_outlined,
         size: 30,
@@ -92,7 +90,7 @@ class _UserScreensState extends State<UserScreens> {
         animationCurve: Curves.easeInOut,
         animationDuration: const Duration(milliseconds: 300),
         index: _selectedIndex,
-        items: _navBarItems,
+        items: navBarItems,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;

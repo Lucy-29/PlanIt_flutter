@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SplashScreens extends StatefulWidget {
+  const SplashScreens({super.key});
+
   @override
   State<SplashScreens> createState() => _SplashScreensState();
 }

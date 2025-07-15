@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final EventCardModel eventCardModel;
-  EventCard({
+  const EventCard({
     required this.eventCardModel,
     super.key,
   });

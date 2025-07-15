@@ -1,8 +1,7 @@
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
-import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/user_screens.dart';
-import 'package:ems_1/features/splashscreens/screens/splash_screens.dart';
+import 'package:ems_1/features/provider/Provider_Screens/offers/offers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ems_1/features/auth/domain/repositories/auth_repository.dart';
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
             // if (state is Authenticated) {
             //   return const HomeScreen();
             // }
-            return UserScreens();
+            return LoginPage();
           },
         ),
       ),

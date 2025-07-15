@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class FourthScreen extends StatelessWidget {
+  const FourthScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

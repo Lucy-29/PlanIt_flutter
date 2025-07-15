@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class PopularWidget extends StatelessWidget {
   final List<EventCardModel> event;
-  PopularWidget({required this.event, super.key});
+  const PopularWidget({required this.event, super.key});
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -38,6 +38,8 @@ class PopularEventsScreen extends StatelessWidget {
     ),
   ];
 
+  PopularEventsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
