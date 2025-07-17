@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
 import 'package:ems_1/core/themes/app_themes.dart';
 import 'package:ems_1/features/home/presentation/screens/AddEventScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/settings/settings_screen.dart';
->>>>>>> 315046e6be2da8458c26a0121f0d02d6c66c4b2e
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
