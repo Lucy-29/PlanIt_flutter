@@ -82,6 +82,9 @@ class _UserScreensState extends State<UserScreens> {
               MaterialPageRoute(builder: (_) => const CreateEventScreen()));
         },
         child: Icon(Icons.add),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
       ),
     );
   }
