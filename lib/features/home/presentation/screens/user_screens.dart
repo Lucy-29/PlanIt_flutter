@@ -44,8 +44,8 @@ class _UserScreensState extends State<UserScreens> {
         size: 30,
         color: _selectedIndex == 1 ? _activeColor : _inActiveColor,
       ),
-      Icon(Icons.event_available,
-          size: 40, color: _selectedIndex == 2 ? _activeColor : _inActiveColor),
+      Icon(Icons.event_available_outlined,
+          size: 30, color: _selectedIndex == 2 ? _activeColor : _inActiveColor),
       Icon(
         Icons.favorite_outline,
         size: 30,
