@@ -1,10 +1,12 @@
+import 'package:ems_1/features/home/data/models/company_model.dart';
+
 class EventCardModel {
   final String imageUrl;
   final String title;
   final String date;
   final String location;
   final int goingCount;
-  final String organizer;
+  final CompanyModel organizer;
   final String organizerImage;
   final String desc;
   final String price;

@@ -21,23 +21,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => AuthCubit(sl<AuthRepository>())),
-        BlocProvider(create: (context) => SplashScreenCubit()),
-        BlocProvider(create: (context) => ThemesCubit()),
-      ],
-      child: BlocBuilder<ThemesCubit, ThemesState>(
-        builder: (context, state) {
-          return MaterialApp(
-            title: 'PLANIT',
-            debugShowCheckedModeBanner: false,
-            theme: AppThemes().lightTheme,
-            darkTheme: AppThemes().darkTheme,
-            themeMode: state is ThemesDark ? ThemeMode.dark : ThemeMode.light,
-            home: UserScreens(),
-          );
-        },
+    return BlocProvider(
+      create: (context) => AuthCubit(sl<AuthRepository>()),
+      child: MaterialApp(
+        theme: AppThemes().lightTheme,
+        //theme: AppThemes().darkTheme,
+        title: 'PLANIT',
+        debugShowCheckedModeBanner: false,
+        home: BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            // While the AuthCubit is checking the token, show a splash screen.
+            // if (state is AuthInitial || state is AuthLoading) {
+            //   return const SplashScreens();
+            // }
+
+            // if (state is Authenticated) {
+            //   return const HomeScreen();
+            // }
+            return UserScreens();
+          },
+        ),
       ),
     );
   }

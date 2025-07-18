@@ -1,4 +1,5 @@
 import 'package:ems_1/common/widgets/event_card.dart';
+import 'package:ems_1/features/home/data/models/company_model.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,11 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
-      organizer: 'Ted',
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
       organizerImage:
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       desc:
@@ -25,7 +30,11 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
-      organizer: 'Ted',
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
       organizerImage:
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       desc:
@@ -39,7 +48,11 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
-      organizer: 'Ted',
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
       organizerImage:
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       desc:
@@ -53,7 +66,11 @@ class PopularEventsScreen extends StatelessWidget {
       date: '15 nov',
       location: 'Damascus',
       goingCount: 20,
-      organizer: 'Ted',
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
       organizerImage:
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       desc:

@@ -3,11 +3,16 @@ import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/create_event/create_event_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/events/events_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/settings/settings_screen.dart';
+//import 'package:ems_1/features/home/presentation/screens/AddEventScreen.dart';
+import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
+//import 'package:ems_1/features/home/presentation/screens/settings_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'package:ems_1/features/home/presentation/screens/favorite/favoriteScreen.dart';
+
+//import 'package:ems_1/features/home/Favorite/screens/favoriteScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
 
 class UserScreens extends StatefulWidget {
@@ -26,6 +31,7 @@ class _UserScreensState extends State<UserScreens> {
     UserHomeScreen(),
     CalendarScreen(),
     EventsScreen(),
+   // Addeventscreen(),
     Favoritescreen(),
     SettingsScreen(),
   ];

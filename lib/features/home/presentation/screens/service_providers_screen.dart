@@ -1,10 +1,10 @@
 import 'package:ems_1/common/widgets/service_card.dart';
-import 'package:ems_1/features/home/data/models/service_card_model.dart';
+import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
 import 'package:flutter/material.dart';
 
 class ServiceProvidersScreen extends StatelessWidget {
-  final List<ServiceCardModel> dummyServices = [
-    ServiceCardModel(
+  final List<ServiceProviderModel> dummyServices = [
+    ServiceProviderModel(
       providerName: 'Salon Sarah',
       serviceName: 'Hair Styling & Beauty',
       location: 'Damascus',
@@ -14,8 +14,11 @@ class ServiceProvidersScreen extends StatelessWidget {
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       description:
           'Expert beauty services from trained professionals in a relaxing environment.',
+      email: "Sara_Salon12@gmail.com",
+      facebookUrl: "",
+      instagramUrl: "",
     ),
-    ServiceCardModel(
+    ServiceProviderModel(
       providerName: 'FixIt Co.',
       serviceName: 'Home Repair Services',
       location: 'Homs',
@@ -25,8 +28,11 @@ class ServiceProvidersScreen extends StatelessWidget {
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       description:
           'Reliable home maintenance and repair for appliances and furniture.',
+      email: "",
+      facebookUrl: "",
+      instagramUrl: "",
     ),
-    ServiceCardModel(
+    ServiceProviderModel(
       providerName: 'FixIt Co.',
       serviceName: 'Home Repair Services',
       location: 'Homs',
@@ -36,8 +42,11 @@ class ServiceProvidersScreen extends StatelessWidget {
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       description:
           'Reliable home maintenance and repair for appliances and furniture.',
+      email: "",
+      facebookUrl: "",
+      instagramUrl: "",
     ),
-    ServiceCardModel(
+    ServiceProviderModel(
       providerName: 'FixIt Co.',
       serviceName: 'Home Repair Services',
       location: 'Homs',
@@ -47,6 +56,9 @@ class ServiceProvidersScreen extends StatelessWidget {
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       description:
           'Reliable home maintenance and repair for appliances and furniture.',
+      email: "",
+      facebookUrl: "",
+      instagramUrl: "",
     ),
   ];
 
@@ -61,7 +73,7 @@ class ServiceProvidersScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: dummyServices.length,
         itemBuilder: (context, index) {
-          return ServiceCard(serviceCardModel: dummyServices[index]);
+          return ServiceCard(serviceProviderModel: dummyServices[index]);
         },
       ),
     );
