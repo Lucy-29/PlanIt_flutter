@@ -1,6 +1,7 @@
 import 'package:ems_1/core/themes/app_themes.dart';
 import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/create_event/create_event_screen.dart';
+import 'package:ems_1/features/home/presentation/screens/events/events_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/settings/settings_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _UserScreensState extends State<UserScreens> {
   final List<Widget> _screens = [
     UserHomeScreen(),
     CalendarScreen(),
-    CreateEventScreen(),
+    EventsScreen(),
     Favoritescreen(),
     SettingsScreen(),
   ];
@@ -43,7 +44,7 @@ class _UserScreensState extends State<UserScreens> {
         size: 30,
         color: _selectedIndex == 1 ? _activeColor : _inActiveColor,
       ),
-      Icon(Icons.add_circle,
+      Icon(Icons.event_available,
           size: 40, color: _selectedIndex == 2 ? _activeColor : _inActiveColor),
       Icon(
         Icons.favorite_outline,
@@ -59,8 +60,6 @@ class _UserScreensState extends State<UserScreens> {
 
     return Scaffold(
       extendBody: true,
-
-      // backgroundColor: Color(0xFFF4F2EA),
       body: _screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: isDark ? Color(0xFF192428) : Color(0xFFF4F2EA),
@@ -76,6 +75,13 @@ class _UserScreensState extends State<UserScreens> {
             _selectedIndex = index;
           });
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const CreateEventScreen()));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
