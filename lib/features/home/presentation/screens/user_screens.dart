@@ -1,21 +1,13 @@
-<<<<<<< HEAD
 import 'package:ems_1/core/themes/app_themes.dart';
 import 'package:ems_1/features/home/presentation/screens/AddEventScreen.dart';
-=======
->>>>>>> upstream/main
+import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
+import 'package:ems_1/features/home/presentation/screens/settings_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-<<<<<<< HEAD
-import 'package:ems_1/features/home/presentation/screens/calendarScreen.dart';
+
 import 'package:ems_1/features/home/Favorite/screens/favoriteScreen.dart';
-import 'package:ems_1/features/home/presentation/screens/settingsScreen.dart';
-=======
-import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
-import 'package:ems_1/features/home/presentation/screens/favorite_screen.dart';
-import 'package:ems_1/features/home/presentation/screens/settings_screen.dart';
->>>>>>> upstream/main
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
 
 class UserScreens extends StatefulWidget {
@@ -32,16 +24,10 @@ class _UserScreensState extends State<UserScreens> {
 
   final List<Widget> _screens = [
     UserHomeScreen(),
-<<<<<<< HEAD
-    Calendarscreen(),
+    CalendarScreen(),
     Addeventscreen(),
     Favoritescreen(),
-    Settingsscreen(),
-=======
-    CalendarScreen(),
-    FavoriteScreen(),
     SettingsScreen(),
->>>>>>> upstream/main
   ];
 
   @override

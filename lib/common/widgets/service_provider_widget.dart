@@ -2,13 +2,13 @@
 
 import 'package:ems_1/features/home/presentation/screens/service_providers_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ems_1/features/home/data/models/service_card_model.dart';
+import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
 import 'package:ems_1/common/widgets/service_card.dart';
 
 class ServiceProviderWidget extends StatelessWidget {
-  final List<ServiceCardModel> serviceCardModel;
+  final List<ServiceProviderModel> serviceProviderModel;
 
-  const ServiceProviderWidget({required this.serviceCardModel, super.key});
+  const ServiceProviderWidget({required this.serviceProviderModel, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class ServiceProviderWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: 3,
             itemBuilder: (context, index) {
-              return ServiceCard(serviceCardModel: serviceCardModel[index]);
+              return ServiceCard(serviceProviderModel: serviceProviderModel[index]);
             },
           ),
         ),

@@ -72,7 +72,7 @@ class EventDetailsScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 15),
                             Text(
-                              eventCardModel.organizer,
+                              eventCardModel.organizer.companyName,
                               style: TextStyle(fontSize: 16),
                             ),
                           ],

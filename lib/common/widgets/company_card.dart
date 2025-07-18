@@ -1,25 +1,21 @@
 import 'dart:ui';
 
-import 'package:ems_1/features/home/data/models/event_card_model.dart';
-import 'package:ems_1/features/home/presentation/screens/event_details_screen.dart';
+import 'package:ems_1/features/home/data/models/company_model.dart';
 import 'package:flutter/material.dart';
 
-class EventCard extends StatelessWidget {
-  final EventCardModel eventCardModel;
-  const EventCard({
-    required this.eventCardModel,
-    super.key,
-  });
+class CompanyCard extends StatelessWidget {
+  CompanyModel companyModel;
+  CompanyCard({super.key, required this.companyModel});
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    EventDetailsScreen(eventCardModel: eventCardModel)));
-      },
+      //onTap: () {
+      //Navigator.push(
+      //  context,
+      //MaterialPageRoute(
+      //  builder: (context) =>
+      //    EventDetailsScreen(eventCardModel: eventCardModel)));
+      //},
       // borderRadius: BorderRadius.circular(20),
 
       child: Container(
@@ -50,7 +46,7 @@ class EventCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Image.network(
-              eventCardModel.imageUrl,
+              companyModel.companyImageUrl,
               height: 150,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -69,14 +65,7 @@ class EventCard extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  eventCardModel.date.substring(0, 2),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Color(0xff206173)),
-                ),
-                Text(
-                  eventCardModel.date.substring(3),
+                  "rate",
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -117,26 +106,16 @@ class EventCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            eventCardModel.title,
+            companyModel.companyName,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
             children: [
-              Icon(Icons.people),
-              Text(
-                '+${eventCardModel.goingCount} Going',
-                style: TextStyle(
-                    color: Colors.black54, fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          Row(
-            children: [
               Icon(Icons.location_on),
               Text(
-                eventCardModel.location,
+                companyModel.location,
                 style: TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,

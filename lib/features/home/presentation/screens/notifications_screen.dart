@@ -31,13 +31,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               SizedBox(
                 height: 100,
               ),
-<<<<<<< HEAD
-              Image.asset('assets/images/notification pic.png'),
-=======
               Image.asset(isDark
                   ? 'assets/images/notifications_darkmode.png'
                   : 'assets/images/notification pic.png'),
->>>>>>> upstream/main
               SizedBox(
                 height: 32,
               ),
