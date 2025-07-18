@@ -1,6 +1,6 @@
 import 'package:ems_1/core/themes/app_themes.dart';
-import 'package:ems_1/features/home/presentation/screens/AddEventScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
+import 'package:ems_1/features/home/presentation/screens/create_event/create_event_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/settings/settings_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class _UserScreensState extends State<UserScreens> {
   final List<Widget> _screens = [
     UserHomeScreen(),
     CalendarScreen(),
-    Addeventscreen(),
+    CreateEventScreen(),
     Favoritescreen(),
     SettingsScreen(),
   ];

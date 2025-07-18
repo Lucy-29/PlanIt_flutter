@@ -103,8 +103,27 @@ class SettingsScreen extends StatelessWidget {
             icon: Icons.logout,
             iconColor: Colors.red,
             onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+              // 1. Show a confirmation dialog (good practice)
+              showDialog(
+                  context: context,
+                  builder: (dialogContext) => AlertDialog(
+                        title: Text("Log Out"),
+                        content: Text("Are you sure you want to log out?"),
+                        actions: [
+                          TextButton(
+                              onPressed: () =>
+                                  Navigator.of(dialogContext).pop(),
+                              child: Text("Cancel")),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(dialogContext).pop();
+                                // 2. Call the global AuthCubit to log out.
+                                context.read<AuthCubit>().logout();
+                              },
+                              child: Text("Log Out",
+                                  style: TextStyle(color: Colors.red))),
+                        ],
+                      ));
             },
           ),
         ],
@@ -146,7 +165,7 @@ class SettingsScreen extends StatelessWidget {
         value: value,
         onChanged: onChanged,
         activeColor: Theme.of(context).primaryColor,
-        activeTrackColor: const Color(0xFFF4C2C2).withOpacity(0.5),
+        activeTrackColor: const Color(0xFFF4C2C2),
         inactiveThumbColor: Colors.grey,
         inactiveTrackColor: Colors.grey.shade300,
       ),

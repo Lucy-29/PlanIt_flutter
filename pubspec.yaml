@@ -45,6 +45,9 @@ dependencies:
   url_launcher: ^6.1.10
   image_picker: ^1.1.1
   shared_preferences: ^2.2.2
+  numberpicker: ^2.1.2   # For the time picker UI
+  intl: ^0.18.1         # For date formatting (like turning a DateTime into "October 01, 2025")
+
 
 
 
