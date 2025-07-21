@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:ems_1/features/home/data/models/create_event_model.dart';
+import 'package:ems_1/features/home/data/models/selected_provider_model.dart';
 import 'package:ems_1/features/home/presentation/cubit/create_event/create_event_cubit.dart';
+import 'package:ems_1/features/home/presentation/cubit/my_event/my_event_cubit.dart';
+import 'package:ems_1/features/home/presentation/screens/create_event/selected_provider_card.dart';
+import 'package:ems_1/features/home/presentation/screens/service_providers_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,19 +13,22 @@ import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class CreateEventScreen extends StatelessWidget {
-  const CreateEventScreen({super.key});
+  final CreateEventModel? eventToEdit;
+
+  const CreateEventScreen({super.key, this.eventToEdit});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CreateEventCubit(),
-      child: const CreateEventView(),
+      create: (_) => CreateEventCubit(initialEvent: eventToEdit),
+      child: CreateEventView(isEditing: eventToEdit != null),
     );
   }
 }
 
 class CreateEventView extends StatefulWidget {
-  const CreateEventView({super.key});
+  final bool isEditing;
+  const CreateEventView({super.key, required this.isEditing});
 
   @override
   State<CreateEventView> createState() => _CreateEventViewState();
@@ -28,6 +37,8 @@ class CreateEventView extends StatefulWidget {
 class _CreateEventViewState extends State<CreateEventView> {
   final _eventNameController = TextEditingController();
   final _locationController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _priceController = TextEditingController();
 
   final List<String> eventTypes = [
     'Creative & Cultural 🎨',
@@ -39,11 +50,24 @@ class _CreateEventViewState extends State<CreateEventView> {
     'Educational & Academic 🎓',
     'Training & Development 📚',
   ];
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isEditing) {
+      final initialEvent = context.read<CreateEventCubit>().state.eventModel;
+      _eventNameController.text = initialEvent.eventName;
+      _locationController.text = initialEvent.location;
+      _descriptionController.text = initialEvent.description;
+      _priceController.text = initialEvent.price.toStringAsFixed(2);
+    }
+  }
 
   @override
   void dispose() {
     _eventNameController.dispose();
     _locationController.dispose();
+    _descriptionController.dispose();
+    _priceController.dispose();
     super.dispose();
   }
 
@@ -113,6 +137,48 @@ class _CreateEventViewState extends State<CreateEventView> {
           return ListView(
             padding: const EdgeInsets.all(20.0),
             children: [
+              _buildSectionTitle('EVENT PICTURE (OPTIONAL)', theme),
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: () {
+                  // This calls the method we already added to the cubit
+                  context.read<CreateEventCubit>().pickImage();
+                },
+                child: Container(
+                  height: 150,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: fieldFillColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: event.imagePath != null
+                      // If an image is selected, display it
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            File(event
+                                .imagePath!), // Create a File object from the path
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                  child: Text("Could not load image"));
+                            },
+                          ),
+                        )
+                      // Otherwise, show the placeholder
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_a_photo_outlined,
+                                size: 40, color: theme.hintColor),
+                            const SizedBox(height: 8),
+                            Text("Add a cover picture",
+                                style: TextStyle(color: theme.hintColor)),
+                          ],
+                        ),
+                ),
+              ),
+              const SizedBox(height: 24),
               _buildSectionTitle('EVENT NAME', theme),
               const SizedBox(height: 8),
               TextField(
@@ -158,7 +224,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                 spacing: 8,
                 runSpacing: 8,
                 children: eventTypes.map((type) {
-                  final isSelected = event.eventTypes.contains(type);
+                  final isSelected = event.eventType == type;
                   return ChoiceChip(
                     label: Text(type),
                     selected: isSelected,
@@ -195,22 +261,98 @@ class _CreateEventViewState extends State<CreateEventView> {
                 onChanged: (value) =>
                     context.read<CreateEventCubit>().locationChanged(value),
               ),
+              const SizedBox(height: 24),
+              _buildSectionTitle('DESCRIPTION', theme),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _descriptionController,
+                decoration: fieldDecoration.copyWith(
+                    hintText: 'Enter event description...'),
+                onChanged: (value) =>
+                    context.read<CreateEventCubit>().descriptionChanged(value),
+                maxLines: 4, // Make it a larger text box
+              ),
+              const SizedBox(height: 24),
+              _buildSectionTitle('TICKET PRICE (\$)', theme),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _priceController,
+                decoration: fieldDecoration.copyWith(hintText: '\$'),
+                onChanged: (value) =>
+                    context.read<CreateEventCubit>().priceChanged(value),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+              ),
+              TextButton.icon(
+                icon: const Icon(Icons.add_circle_outline),
+                label: const Text('Select Providers'),
+                style: TextButton.styleFrom(
+                  foregroundColor: theme.primaryColor,
+                  textStyle: theme.textTheme.labelLarge,
+                ),
+                onPressed: () async {
+                  // Navigate to the selection screen and WAIT for a result
+                  final List<SelectedProviderModel>? selectedProviders =
+                      await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      // We will update ServiceProvidersScreen next
+                      builder: (_) => ServiceProvidersScreen(),
+                    ),
+                  );
+
+                  // If the user made a selection and came back...
+                  if (selectedProviders != null &&
+                      selectedProviders.isNotEmpty) {
+                    // ...update the cubit's state with the new list
+                    context
+                        .read<CreateEventCubit>()
+                        .providersSelected(selectedProviders);
+                  }
+                },
+              ),
+              const SizedBox(height: 8),
+
+              // DISPLAY THE LIST OF SELECTED PROVIDERS
+              // This part will only be visible if providers have been selected.
+              if (event.selectedProviders.isNotEmpty)
+                _buildSectionTitle('SELECTED PROVIDERS', theme),
+              const SizedBox(height: 8),
+
+              ListView.separated(
+                itemCount: event.selectedProviders.length,
+                shrinkWrap: true, // Important for nested lists
+                physics:
+                    const NeverScrollableScrollPhysics(), // Disables inner scrolling
+                separatorBuilder: (context, index) => const SizedBox(height: 8),
+                itemBuilder: (context, index) {
+                  final provider = event.selectedProviders[index];
+                  // Use a dedicated widget to display the selected provider
+                  return SelectedProviderCard(
+                    provider: provider,
+                    onRemove: () {
+                      context
+                          .read<CreateEventCubit>()
+                          .providerRemoved(provider);
+                    },
+                  );
+                },
+              ),
               const SizedBox(height: 40),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: theme.primaryColor),
-                        textStyle: theme.textTheme.labelLarge,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      onPressed: () {},
-                      child: const Text('SCHEDULE EVENT'),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
+                  // Expanded(
+                  //   child: OutlinedButton(
+                  //     style: OutlinedButton.styleFrom(
+                  //       side: BorderSide(color: theme.primaryColor),
+                  //       textStyle: theme.textTheme.labelLarge,
+                  //       padding: const EdgeInsets.symmetric(vertical: 14),
+                  //     ),
+                  //     onPressed: () {},
+                  //     child: const Text('SCHEDULE EVENT'),
+                  //   ),
+                  // ),
+                  // const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -218,16 +360,39 @@ class _CreateEventViewState extends State<CreateEventView> {
                         foregroundColor: theme.colorScheme.onPrimary,
                         textStyle: theme.textTheme.labelLarge,
                         padding: const EdgeInsets.symmetric(vertical: 14),
+                        disabledBackgroundColor: Colors.grey.shade400,
                       ),
-                      onPressed: () {
-                        context.read<CreateEventCubit>().createEvent();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                                  'Event Created! (Check console for data)')),
-                        );
-                      },
-                      child: const Text('CREATE EVENT'),
+                      onPressed: state.isFormValid
+                          ? () {
+                              final finalEventDetails = context
+                                  .read<CreateEventCubit>()
+                                  .createEvent();
+
+                              if (widget.isEditing) {
+                                // In EDIT mode, we call editEvent
+                                context
+                                    .read<MyEventCubit>()
+                                    .editEvent(finalEventDetails);
+                              } else {
+                                // In CREATE mode, we call addEvent
+                                context
+                                    .read<MyEventCubit>()
+                                    .addEvent(finalEventDetails);
+                              }
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(widget.isEditing
+                                        ? 'Event Updated!'
+                                        : 'Event Created!')),
+                              );
+                              Navigator.of(context)
+                                  .pop(); // Go back to the previous screen
+                            }
+                          : null,
+                      // The button text changes based on the mode
+                      child: Text(
+                          widget.isEditing ? 'UPDATE EVENT' : 'CREATE EVENT'),
                     ),
                   ),
                 ],

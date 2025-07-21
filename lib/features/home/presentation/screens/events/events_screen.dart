@@ -1,19 +1,19 @@
 import 'package:ems_1/features/home/presentation/screens/events/past_events.dart';
-import 'package:ems_1/features/home/presentation/screens/events/pending_events.dart';
-import 'package:ems_1/features/home/presentation/screens/events/upcoming_evetns.dart';
+import 'package:ems_1/features/home/presentation/screens/events/my_events.dart';
+import 'package:ems_1/features/home/presentation/screens/events/upcoming_events.dart';
 import 'package:flutter/material.dart';
 
 class EventsScreen extends StatelessWidget {
   EventsScreen({super.key});
 
   final List<Widget> tabs = const [
-    Tab(text: "Pending"),
+    Tab(text: "My Events"),
     Tab(text: "Upcoming"),
     Tab(text: "Past"),
   ];
 
   final List<Widget> pages = [
-    PendingEvents(),
+    MyEvents(),
     UpcomingEvetns(),
     PastEvents(),
   ];

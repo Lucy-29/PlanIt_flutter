@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:ems_1/features/home/data/models/service_card_model.dart';
-import 'package:ems_1/features/home/presentation/screens/service_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class ServiceCard extends StatelessWidget {
