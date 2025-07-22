@@ -92,7 +92,9 @@
 //   }
 // }
 import 'package:ems_1/common/widgets/event_card.dart';
+import 'package:ems_1/features/home/data/models/company_model.dart';
 import 'package:ems_1/features/home/data/models/create_event_model.dart';
+import 'package:ems_1/features/home/data/models/event_card_model.dart';
 import 'package:ems_1/features/home/presentation/cubit/my_event/my_event_cubit.dart';
 import 'package:ems_1/features/home/presentation/screens/create_event/my_event_card.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +104,85 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
 
 class PopularEventsScreen extends StatelessWidget {
+  final List<EventCardModel> dummyList = [
+    EventCardModel(
+      imageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      title: 'test',
+      date: '15 nov',
+      location: 'Damascus',
+      goingCount: 20,
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: 100,
+      eventType: '',
+    ),
+    EventCardModel(
+      imageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      title: 'test',
+      date: '15 nov',
+      location: 'Damascus',
+      goingCount: 20,
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: 200,
+      eventType: '',
+    ),
+    EventCardModel(
+      imageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      title: 'test',
+      date: '15 nov',
+      location: 'Damascus',
+      goingCount: 20,
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: 200,
+      eventType: '',
+    ),
+    EventCardModel(
+      imageUrl:
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
+      title: 'test',
+      date: '15 nov',
+      location: 'Damascus',
+      goingCount: 20,
+      organizer: CompanyModel(
+          companyName: "companyName",
+          companyImageUrl: "companyImageUrl",
+          discription: "discription",
+          location: "location"),
+      organizerImage:
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
+      desc:
+          'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
+      price: 220,
+      eventType: '',
+    ),
+  ];
+
   PopularEventsScreen({super.key});
 
   // This list contains only events from OTHER people, using EventCardModel
@@ -112,13 +193,18 @@ class PopularEventsScreen extends StatelessWidget {
       title: 'test',
       date: '15 nov',
       location: 'Damascus',
-      // goingCount: 20,
-      organizer: 'Ted',
+      goingCount: 20,
+      organizer: CompanyModel(
+          companyName: 'S',
+          companyImageUrl: 'companyImageUrl',
+          discription: 'discription',
+          location: 'location'),
       organizerImage:
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       desc:
           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
-      price: 100, eventType: 'Wellness & Lifestyle 🧘',
+      price: 100,
+      eventType: 'Wellness & Lifestyle 🧘',
     ),
     EventCardModel(
       imageUrl:
@@ -126,13 +212,18 @@ class PopularEventsScreen extends StatelessWidget {
       title: 'test',
       date: '15 nov',
       location: 'Damascus',
-      // goingCount: 20,
-      organizer: 'Ted',
+      goingCount: 20,
+      organizer: CompanyModel(
+          companyName: 'S',
+          companyImageUrl: 'companyImageUrl',
+          discription: 'discription',
+          location: 'location'),
       organizerImage:
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       desc:
           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
-      price: 2000, eventType: 'Entertainment & Fun 🎮',
+      price: 2000,
+      eventType: 'Entertainment & Fun 🎮',
     ),
     EventCardModel(
         imageUrl:
@@ -140,8 +231,12 @@ class PopularEventsScreen extends StatelessWidget {
         title: 'test',
         date: '15 nov',
         location: 'Damascus',
-        // goingCount: 20,
-        organizer: 'Ted',
+        goingCount: 20,
+        organizer: CompanyModel(
+            companyName: 'S',
+            companyImageUrl: 'companyImageUrl',
+            discription: 'discription',
+            location: 'location'),
         organizerImage:
             'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
         desc:
@@ -154,13 +249,18 @@ class PopularEventsScreen extends StatelessWidget {
       title: 'test',
       date: '15 nov',
       location: 'Damascus',
-      // goingCount: 20,
-      organizer: 'Ted',
+      goingCount: 20,
+      organizer: CompanyModel(
+          companyName: 'S',
+          companyImageUrl: 'companyImageUrl',
+          discription: 'discription',
+          location: 'location'),
       organizerImage:
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
       desc:
           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
-      price: 300, eventType: 'Training & Development 📚',
+      price: 300,
+      eventType: 'Training & Development 📚',
     ),
   ];
   @override

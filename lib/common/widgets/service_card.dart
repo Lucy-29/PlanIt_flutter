@@ -1,25 +1,26 @@
 import 'dart:ui';
 
-import 'package:ems_1/features/home/data/models/service_card_model.dart';
+import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
+import 'package:ems_1/features/home/presentation/screens/provider_details_screen.dart';
+import 'package:ems_1/features/home/presentation/screens/service_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class ServiceCard extends StatelessWidget {
-  final ServiceCardModel serviceCardModel;
+  final ServiceProviderModel serviceProviderModel;
 
-  const ServiceCard({required this.serviceCardModel, super.key});
+  const ServiceCard({required this.serviceProviderModel, super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) =>
-
-      //     ),
-      //   );
-      // },
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ProviderDetails(serviceCard1: serviceProviderModel)),
+        );
+      },
       child: Container(
         margin: EdgeInsets.all(5),
         width: 250,
@@ -46,7 +47,7 @@ class ServiceCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Image.network(
-              serviceCardModel.placeImageUrl,
+              serviceProviderModel.placeImageUrl,
               height: 150,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -66,7 +67,10 @@ class ServiceCard extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.favorite_border_outlined),
+                  icon: Icon(
+                    Icons.favorite_border_outlined,
+                    color: Color(0xffD99A9A),
+                  ),
                 ),
               ),
             ),
@@ -83,13 +87,13 @@ class ServiceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            serviceCardModel.serviceName,
+            serviceProviderModel.serviceName,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            serviceCardModel.providerName,
+            serviceProviderModel.providerName,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -102,7 +106,7 @@ class ServiceCard extends StatelessWidget {
               SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  serviceCardModel.location,
+                  serviceProviderModel.location,
                   style: TextStyle(
                     color: Colors.black54,
                     fontWeight: FontWeight.bold,

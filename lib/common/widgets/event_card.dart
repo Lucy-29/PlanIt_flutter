@@ -265,7 +265,7 @@ class EventCard extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withOpacity(0.2),
                 ),
                 child: IconButton(
                     onPressed: () {},
