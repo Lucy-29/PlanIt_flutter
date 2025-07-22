@@ -270,6 +270,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.4"
+<<<<<<< HEAD
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -278,6 +279,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.28"
+=======
+>>>>>>> 0feb9b4e8db8707893439da7ff14dfe74e9f9800
   flutter_rating_bar:
     dependency: "direct main"
     description:
@@ -560,6 +563,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.15.0"
+<<<<<<< HEAD
   mime:
     dependency: transitive
     description:
@@ -568,6 +572,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+=======
+>>>>>>> 0feb9b4e8db8707893439da7ff14dfe74e9f9800
   modal_bottom_sheet:
     dependency: "direct main"
     description:
@@ -704,6 +710,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.15"
+<<<<<<< HEAD
   share_plus:
     dependency: "direct main"
     description:
@@ -776,6 +783,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+=======
+>>>>>>> 0feb9b4e8db8707893439da7ff14dfe74e9f9800
   sky_engine:
     dependency: transitive
     description: flutter

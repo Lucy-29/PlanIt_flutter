@@ -6,8 +6,11 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   flutter_secure_storage_windows
   rive_common
+<<<<<<< HEAD
   share_plus
   url_launcher_windows
+=======
+>>>>>>> 0feb9b4e8db8707893439da7ff14dfe74e9f9800
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
