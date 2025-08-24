@@ -4,20 +4,16 @@ import 'package:ems_1/features/home/data/models/company_model.dart';
 import 'package:flutter/material.dart';
 
 class CompanyCard extends StatelessWidget {
-  CompanyModel companyModel;
-  CompanyCard({super.key, required this.companyModel});
+  final CompanyModel companyModel;
+  final VoidCallback? onTap;
+  
+  const CompanyCard({super.key, required this.companyModel, this.onTap});
+  
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      //onTap: () {
-      //Navigator.push(
-      //  context,
-      //MaterialPageRoute(
-      //  builder: (context) =>
-      //    EventDetailsScreen(eventCardModel: eventCardModel)));
-      //},
-      // borderRadius: BorderRadius.circular(20),
-
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
       child: Container(
         margin: EdgeInsets.all(5),
         width: 250,

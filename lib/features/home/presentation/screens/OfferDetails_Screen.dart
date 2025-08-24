@@ -1,10 +1,18 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:ems_1/features/home/data/models/provider_offer_model.dart';
+import 'package:ems_1/features/home/data/models/selected_offer_model.dart';
+import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
 import 'package:flutter/material.dart';
 
 class OfferdetailsScreen extends StatelessWidget {
+  final ServiceProviderModel providerModel;
+
   ProviderOfferModel offerModel;
-  OfferdetailsScreen({super.key, required this.offerModel});
+  OfferdetailsScreen({
+    super.key,
+    required this.offerModel,
+    required this.providerModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +26,19 @@ class OfferdetailsScreen extends StatelessWidget {
             AwesomeDialog(
                 dialogType: DialogType.noHeader,
                 animType: AnimType.scale,
-                btnOkOnPress: () {},
+                btnOkOnPress: () {
+                  final selectedOffer = SelectedOfferModel(
+                    offerId: offerModel
+                        .offerName, // Using name as a temporary unique ID
+                    offerName: offerModel.offerName,
+                    offerPrice: offerModel.price,
+                    providerId:
+                        providerModel.providerName, // Use a real ID later
+                    providerName: providerModel.providerName,
+                    providerImageUrl: providerModel.providerImageUrl,
+                  );
+                  Navigator.of(context).pop(selectedOffer);
+                },
                 btnCancelOnPress: () {},
                 btnOkText: "CONFIRM",
                 btnCancelText: "CANCEL",

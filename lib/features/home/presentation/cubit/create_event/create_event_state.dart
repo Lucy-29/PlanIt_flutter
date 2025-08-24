@@ -1,28 +1,33 @@
 part of 'create_event_cubit.dart';
 
-class CreateEventState extends Equatable {
-  // Use the correct EventModel here
-  final CreateEventModel eventModel;
+// An enum to represent the form's submission status
+enum FormSubmissionStatus { initial, submitting, success, failure }
 
-  // This boolean will control if the "CREATE EVENT" button is enabled
+class CreateEventState extends Equatable {
+  final EventDetailsModel eventModel;
   final bool isFormValid;
+  // 👇 --- ADD THIS NEW FIELD --- 👇
+  final FormSubmissionStatus submissionStatus;
 
   const CreateEventState({
     required this.eventModel,
     required this.isFormValid,
+    this.submissionStatus = FormSubmissionStatus.initial, // Default to initial
   });
 
-  // Helper method to create a new state with updated values
   CreateEventState copyWith({
-    CreateEventModel? eventModel,
+    EventDetailsModel? eventModel,
     bool? isFormValid,
+    FormSubmissionStatus? submissionStatus, // Allow updating the status
   }) {
     return CreateEventState(
       eventModel: eventModel ?? this.eventModel,
       isFormValid: isFormValid ?? this.isFormValid,
+      submissionStatus:
+          submissionStatus ?? this.submissionStatus, // Update the status
     );
   }
 
   @override
-  List<Object?> get props => [eventModel, isFormValid];
+  List<Object?> get props => [eventModel, isFormValid, submissionStatus];
 }

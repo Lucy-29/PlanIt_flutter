@@ -1,15 +1,34 @@
+import 'package:ems_1/common/widgets/show_guest_alert.dart';
+import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/home/data/models/provider_offer_model.dart';
+import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
 import 'package:ems_1/features/home/presentation/screens/OfferDetails_Screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProviderOfferCard extends StatelessWidget {
   final ProviderOfferModel providerOfferModel;
-  const ProviderOfferCard({super.key, required this.providerOfferModel});
+  final ServiceProviderModel providerModel;
+  const ProviderOfferCard({
+    super.key, 
+    required this.providerOfferModel,
+    required this.providerModel,
+  });
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthCubit>().state;
+    final isGuest = authState is Authenticated && authState.isGuest;
     return InkWell(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> OfferdetailsScreen(offerModel: providerOfferModel,) ));
+      onTap: () {
+        isGuest
+            ? showGuestAlert(context)
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => OfferdetailsScreen(
+                          offerModel: providerOfferModel,
+                          providerModel: providerModel,
+                        )));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, bottom: 15),
@@ -47,7 +66,8 @@ class ProviderOfferCard extends StatelessWidget {
                   children: [
                     Text(
                       providerOfferModel.offerName,
-                      style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Text(

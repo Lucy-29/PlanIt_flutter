@@ -1,107 +1,12 @@
-// import 'package:ems_1/common/widgets/event_card.dart';
-// import 'package:ems_1/features/home/data/models/event_card_model.dart';
-// import 'package:ems_1/features/home/presentation/screens/create_event/my_event_card.dart';
-// import 'package:flutter/material.dart';
-
-// class PopularEventsScreen extends StatelessWidget {
-//   final List<EventCardModel> dummyList = [
-//     EventCardModel(
-//       imageUrl:
-//           'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
-//       title: 'test',
-//       date: '15 nov',
-//       location: 'Damascus',
-//       goingCount: 20,
-//       organizer: 'Ted',
-//       organizerImage:
-//           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
-//       desc:
-//           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
-//       price: 100,
-//     ),
-//     EventCardModel(
-//       imageUrl:
-//           'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
-//       title: 'test',
-//       date: '15 nov',
-//       location: 'Damascus',
-//       goingCount: 20,
-//       organizer: 'Ted',
-//       organizerImage:
-//           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
-//       desc:
-//           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
-//       price: 100,
-//     ),
-//     EventCardModel(
-//       imageUrl:
-//           'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
-//       title: 'test',
-//       date: '15 nov',
-//       location: 'Damascus',
-//       goingCount: 20,
-//       organizer: 'Ted',
-//       organizerImage:
-//           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
-//       desc:
-//           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
-//       price: 100,
-//     ),
-//     EventCardModel(
-//       imageUrl:
-//           'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
-//       title: 'test',
-//       date: '15 nov',
-//       location: 'Damascus',
-//       goingCount: 20,
-//       organizer: 'Ted',
-//       organizerImage:
-//           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800',
-//       desc:
-//           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
-//       price: 22,
-//     ),
-//   ];
-
-//   PopularEventsScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Popular Events',
-//           style: TextStyle(),
-//         ),
-//       ),
-//       body: Column(
-//         children: [
-//           ListView.builder(
-//               itemCount: dummyList.length,
-//               itemBuilder: (context, index) {
-//                 return EventCard(eventCardModel: dummyList[index]);
-//               }),
-//                ListView.builder(
-//               itemCount: eve,
-//               itemBuilder: (context, index) {
-//                 return MyEventCard(event: event);
-//               }),
-//         ],
-//       ),
-//     );
-//   }
-// }
 import 'package:ems_1/common/widgets/event_card.dart';
 import 'package:ems_1/features/home/data/models/company_model.dart';
-import 'package:ems_1/features/home/data/models/create_event_model.dart';
+import 'package:ems_1/features/home/data/models/event_details_model.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
+import 'package:ems_1/features/home/data/models/event_status_model.dart';
 import 'package:ems_1/features/home/presentation/cubit/my_event/my_event_cubit.dart';
 import 'package:ems_1/features/home/presentation/screens/create_event/my_event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// Import BOTH card models and widgets
-import 'package:ems_1/features/home/data/models/event_card_model.dart';
 
 class PopularEventsScreen extends StatelessWidget {
   final List<EventCardModel> dummyList = [
@@ -273,10 +178,8 @@ class PopularEventsScreen extends StatelessWidget {
         builder: (context, myEventsState) {
           // --- PREPARE THE LISTS ---
 
-          // 1. Get ONLY the public events created by the user (these use EventModel)
-          final List<CreateEventModel> myPublicEvents = myEventsState.myEvents
-              .where((event) => event.privacy == EventPrivacy.public)
-              .toList();
+          // 1. Get user events (EventStatusModel doesn't have privacy info, so get all)
+          final List<EventStatusModel> myPublicEvents = myEventsState.myEvents;
 
           // 2. COMBINE THE TWO LISTS INTO A DYNAMIC LIST
           // This list will contain a mix of `EventModel` objects and `EventCardModel` objects.
@@ -298,7 +201,7 @@ class PopularEventsScreen extends StatelessWidget {
 
                 // 👇 THE CRITICAL LOGIC: CHECK THE TYPE OF THE ITEM
 
-                if (item is CreateEventModel) {
+                if (item is EventDetailsModel) {
                   // If the item is an `EventModel`, it's one of YOUR events.
                   // Therefore, we must use the `MyEventCard` widget.
                   return MyEventCard(

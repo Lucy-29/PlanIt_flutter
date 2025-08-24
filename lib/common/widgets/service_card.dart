@@ -7,13 +7,15 @@ import 'package:flutter/material.dart';
 
 class ServiceCard extends StatelessWidget {
   final ServiceProviderModel serviceProviderModel;
+  final VoidCallback? onTap; // 1. ADD THIS LINE
 
-  const ServiceCard({required this.serviceProviderModel, super.key});
+  const ServiceCard(
+      {required this.serviceProviderModel, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: onTap ?? () {
         Navigator.push(
           context,
           MaterialPageRoute(

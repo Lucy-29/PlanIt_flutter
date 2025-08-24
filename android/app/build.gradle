@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ems_1" 
+    namespace = "com.example.ems_1"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -38,7 +38,7 @@ android {
         }
     }
 }
-
+    
 flutter {
     source = "../.."
 }

@@ -1,5 +1,7 @@
+import 'package:ems_1/core/secret/stripe_key.dart';
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
+import 'package:ems_1/features/home/domain/repositories/event_repository.dart';
 import 'package:ems_1/features/home/presentation/cubit/my_event/my_event_cubit.dart';
 import 'package:ems_1/features/home/presentation/cubit/themes/themes_cubit.dart';
 import 'package:ems_1/features/home/presentation/screens/user_screens.dart';
@@ -10,9 +12,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ems_1/features/auth/domain/repositories/auth_repository.dart';
 import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/core/themes/app_themes.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = pubkey;
   setupServiceLocator();
   runApp(const MyApp());
 }
@@ -27,7 +31,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit(sl<AuthRepository>())),
         BlocProvider(create: (context) => SplashScreenCubit()),
         BlocProvider(create: (context) => ThemesCubit()),
-        BlocProvider(create: (context) => MyEventCubit()),
+        BlocProvider(create: (context) => MyEventCubit(sl<EventRepository>())),
       ],
       child: BlocBuilder<ThemesCubit, ThemesState>(
         builder: (context, state) {
@@ -37,7 +41,7 @@ class MyApp extends StatelessWidget {
             theme: AppThemes().lightTheme,
             darkTheme: AppThemes().darkTheme,
             themeMode: state is ThemesDark ? ThemeMode.dark : ThemeMode.light,
-            home: UserScreens(),
+            home: LoginPage(),
           );
         },
       ),

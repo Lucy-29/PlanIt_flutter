@@ -32,4 +32,6 @@ abstract class BaseUserModel extends Equatable {
 
   @override
   List<Object?> get props => [id, name, email, type];
+
+  get profileImageUrl => null;
 }

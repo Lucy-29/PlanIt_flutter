@@ -2,11 +2,14 @@ import 'dart:ui';
 import 'package:ems_1/common/widgets/provider_offer_card.dart';
 import 'package:ems_1/common/widgets/provider_rate_card.dart';
 import 'package:ems_1/common/widgets/service_card.dart';
+import 'package:ems_1/common/widgets/show_guest_alert.dart';
 import 'package:ems_1/features/auth/data/models/rating_bar_widget.dart';
+import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/home/data/models/provider_rate_model.dart';
 import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -467,13 +470,18 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
         physics: NeverScrollableScrollPhysics(),
         itemCount: serviceCard.offers.length,
         itemBuilder: (context, i) {
-          return ProviderOfferCard(providerOfferModel: serviceCard.offers[i]);
+          return ProviderOfferCard(
+            providerOfferModel: serviceCard.offers[i],
+            providerModel: serviceCard,
+          );
         },
       );
     }
   }
 
   Widget _buildReviews() {
+    final authState = context.watch<AuthCubit>().state;
+    final isGuest = authState is Authenticated && authState.isGuest;
     return Column(
       children: [
         SizedBox(
@@ -496,83 +504,86 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
             ),
           ),
           onPressed: () {
-            AwesomeDialog(
-              context: context,
-              body: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'RATE',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color(0xff206173),
-                        fontWeight: FontWeight.w500,
+            isGuest
+                ? showGuestAlert(context)
+                : AwesomeDialog(
+                    context: context,
+                    body: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'RATE',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0xff206173),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(height: 15),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xffa0c4c7),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: TextField(
+                              controller: _commentController,
+                              minLines: 1,
+                              maxLines: 2,
+                              style: TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "ADD COMMENT......",
+                                hintStyle: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          RatingBar(
+                            initialRating: 0,
+                            direction: Axis.horizontal,
+                            allowHalfRating: false,
+                            itemCount: 5,
+                            ratingWidget: RatingWidget(
+                              full: Icon(Icons.star, color: Colors.amber),
+                              half: Icon(Icons.star_half, color: Colors.amber),
+                              empty:
+                                  Icon(Icons.star_border, color: Colors.amber),
+                            ),
+                            onRatingUpdate: (rating) {
+                              setState(() {
+                                numOfStars = rating;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 15),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xffa0c4c7),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextField(
-                        controller: _commentController,
-                        minLines: 1,
-                        maxLines: 2,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "ADD COMMENT......",
-                          hintStyle: TextStyle(color: Colors.white70),
+                    dialogType: DialogType.noHeader,
+                    animType: AnimType.scale,
+                    btnOkOnPress: () {
+                      ProviderRateCard rateCard = ProviderRateCard(
+                        providerRateModel: ProviderRateModel(
+                          comment: _commentController.text,
+                          numOfStars: numOfStars,
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    RatingBar(
-                      initialRating: 0,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      ratingWidget: RatingWidget(
-                        full: Icon(Icons.star, color: Colors.amber),
-                        half: Icon(Icons.star_half, color: Colors.amber),
-                        empty: Icon(Icons.star_border, color: Colors.amber),
-                      ),
-                      onRatingUpdate: (rating) {
-                        setState(() {
-                          numOfStars = rating;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              dialogType: DialogType.noHeader,
-              animType: AnimType.scale,
-              btnOkOnPress: () {
-                ProviderRateCard rateCard = ProviderRateCard(
-                  providerRateModel: ProviderRateModel(
-                    comment: _commentController.text,
-                    numOfStars: numOfStars,
-                  ),
-                );
+                      );
 
-                setState(() {
-                  rates.add(rateCard);
-                  for (var rate in rates) {
-                    totalrate += rate.providerRateModel.numOfStars;
-                  }
-                  totalrate = totalrate / rates.length;
-                });
+                      setState(() {
+                        rates.add(rateCard);
+                        for (var rate in rates) {
+                          totalrate += rate.providerRateModel.numOfStars;
+                        }
+                        totalrate = totalrate / rates.length;
+                      });
 
-                _commentController.clear();
-                numOfStars = 0;
-              },
-            ).show();
+                      _commentController.clear();
+                      numOfStars = 0;
+                    },
+                  ).show();
           },
           child: Text("add rate"),
         ),

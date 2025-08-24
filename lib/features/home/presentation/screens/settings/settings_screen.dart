@@ -1,3 +1,4 @@
+import 'package:ems_1/common/widgets/show_guest_alert.dart';
 import 'package:ems_1/features/auth/domain/repositories/auth_repository.dart';
 import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
@@ -17,6 +18,8 @@ class SettingsScreen extends StatelessWidget {
   // File? _profileImage;
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthCubit>().state;
+    final isGuest = authState is Authenticated && authState.isGuest;
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -103,27 +106,29 @@ class SettingsScreen extends StatelessWidget {
             icon: Icons.logout,
             iconColor: Colors.red,
             onTap: () {
-              // 1. Show a confirmation dialog (good practice)
-              showDialog(
-                  context: context,
-                  builder: (dialogContext) => AlertDialog(
-                        title: Text("Log Out"),
-                        content: Text("Are you sure you want to log out?"),
-                        actions: [
-                          TextButton(
-                              onPressed: () =>
-                                  Navigator.of(dialogContext).pop(),
-                              child: Text("Cancel")),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(dialogContext).pop();
-                                // 2. Call the global AuthCubit to log out.
-                                context.read<AuthCubit>().logout();
-                              },
-                              child: Text("Log Out",
-                                  style: TextStyle(color: Colors.red))),
-                        ],
-                      ));
+              isGuest
+                  ? showGuestAlert(context)
+                  : showDialog(
+                      context: context,
+                      builder: (dialogContext) => AlertDialog(
+                            title: Text("Log Out"),
+                            content: Text("Are you sure you want to log out?"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(dialogContext).pop();
+                                  },
+                                  child: Text("Cancel")),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(dialogContext).pop();
+                                    // 2. Call the global AuthCubit to log out.
+                                    context.read<AuthCubit>().logout();
+                                  },
+                                  child: Text("Log Out",
+                                      style: TextStyle(color: Colors.red))),
+                            ],
+                          ));
             },
           ),
         ],
@@ -132,17 +137,21 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Widget _buildProfileCard(BuildContext context) {
+    final authState = context.watch<AuthCubit>().state;
+    final isGuest = authState is Authenticated && authState.isGuest;
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         onTap: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProfileScreen(),
-            ),
-          );
+          isGuest
+              ? showGuestAlert(context)
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(),
+                  ),
+                );
         },
         title: const Text('Profile',
             style: TextStyle(fontWeight: FontWeight.bold)),

@@ -1,5 +1,9 @@
+import 'package:ems_1/common/widgets/show_guest_alert.dart';
+import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
+import 'package:ems_1/features/home/presentation/screens/user_screens.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventDetailsScreen extends StatelessWidget {
   final EventCardModel eventCardModel;
@@ -8,6 +12,8 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthCubit>().state;
+    final isGuest = authState is Authenticated && authState.isGuest;
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -157,7 +163,12 @@ class EventDetailsScreen extends StatelessWidget {
             bottom: 40,
             left: 60,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                isGuest
+                    ? showGuestAlert(context)
+                    : Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => UserScreens()));
+              },
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(280, 55),
                 backgroundColor: Color(0xFF50C878),

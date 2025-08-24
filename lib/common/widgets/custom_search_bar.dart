@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 
-class CustomSearchBar extends StatefulWidget {
+class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key});
 
   @override
-  State<StatefulWidget> createState() => _CustomSearchBarState();
-}
-
-class _CustomSearchBarState extends State<CustomSearchBar> {
-  final TextEditingController customSearchbarController =
-      TextEditingController();
-  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFFdbc5c4).withOpacity(0.7),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: TextField(
-          controller: customSearchbarController,
-          decoration: InputDecoration(
-            icon: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Icon(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: GestureDetector(
+        onTap: () {
+          // TODO: Add search functionality when ready
+          print('Search bar tapped - functionality not implemented yet');
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFdbc5c4).withOpacity(0.7),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Row(
+            children: [
+              const Icon(
                 Icons.search,
                 color: Colors.black,
+                size: 24,
               ),
-            ),
-            hintText: 'Seach here ...',
-            hintStyle: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-            border: InputBorder.none,
+              const SizedBox(width: 12),
+              Text(
+                'Search here ...',
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.7),
+                  fontSize: 18,
+                ),
+              ),
+            ],
           ),
         ),
       ),

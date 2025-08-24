@@ -1,30 +1,23 @@
-import 'dart:io';
 import 'dart:ui';
-import 'package:ems_1/features/home/data/models/event_details_model.dart';
-import 'package:ems_1/features/home/presentation/screens/create_event/my_event_details_screen.dart';
+import 'package:ems_1/features/home/data/models/event_status_model.dart';
+import 'package:ems_1/features/home/presentation/screens/events/event_status_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MyEventCard extends StatelessWidget {
-  final EventDetailsModel createEventModel;
-
-  // These callbacks will be passed in from the list view where the card is used.
-  // This decouples the card from the cubit.
+class MyEventStatusCard extends StatelessWidget {
+  final EventStatusModel event;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
-  const MyEventCard({
+  const MyEventStatusCard({
     super.key,
-    required this.createEventModel,
+    required this.event,
     required this.onEdit,
     required this.onDelete,
   });
 
-  // Your color helper function is perfect. No changes needed.
   Color _getColorForEventType(String? type) {
-    // It's safer to accept a nullable String
-    if (type == null)
-      return const Color(0xFFbde0c4); // Default color if no type is set
+    if (type == null) return const Color(0xFFbde0c4);
 
     switch (type) {
       case 'Creative & Cultural 🎨':
@@ -48,22 +41,35 @@ class MyEventCard extends StatelessWidget {
     }
   }
 
+  Color _getStatusColor(EventStatus status) {
+    switch (status) {
+      case EventStatus.approved:
+        return Colors.green;
+      case EventStatus.rejected:
+        return Colors.red;
+      case EventStatus.pending:
+      default:
+        return Colors.orange;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isPrivate = createEventModel.privacy == EventPrivacy.private;
-    final eventDate =
-        DateFormat('EEE, MMM d • h:mm a').format(createEventModel.eventDate);
+    final eventDate = DateFormat('EEE, MMM d • h:mm a').format(DateTime.parse('${event.date} ${event.time}'));
+    final backgroundColor = _getColorForEventType(event.eventType);
 
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => MyEventDetailsScreen(event: createEventModel),
-        ));
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => EventStatusDetailsScreen(event: event),
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: backgroundColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -95,32 +101,35 @@ class MyEventCard extends StatelessWidget {
   Widget buildImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: createEventModel.imagePath != null
-          ? Image.file(
-              File(createEventModel.imagePath!),
-              height: 80,
-              width: 80,
-              fit: BoxFit.cover,
-            )
-          : Container(
-              height: 80,
-              width: 80,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(
-                Icons.event,
-                size: 30,
-                color: Colors.grey.shade500,
-              ),
-            ),
+      child: Container(
+        height: 80,
+        width: 80,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(
+          Icons.event,
+          size: 30,
+          color: Colors.grey.shade500,
+        ),
+      ),
     );
   }
 
-  Widget buildInfo(String eventDate) {
-    final isPrivate = createEventModel.privacy == EventPrivacy.private;
+  EventStatus _getActualStatus() {
+    // If event has offers/providers, use the actual status from backend
+    if (event.offers.isNotEmpty) {
+      return event.status;
+    }
+    
+    // If no offers/providers, event is automatically approved
+    return EventStatus.approved;
+  }
 
+  Widget buildInfo(String eventDate) {
+    final actualStatus = _getActualStatus();
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -134,7 +143,7 @@ class MyEventCard extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          createEventModel.eventName,
+          event.title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -147,14 +156,14 @@ class MyEventCard extends StatelessWidget {
         Row(
           children: [
             Icon(
-              Icons.location_on,
+              Icons.event_available_outlined,
               size: 16,
               color: Colors.grey.shade600,
             ),
             const SizedBox(width: 4),
             Expanded(
               child: Text(
-                createEventModel.location,
+                event.eventType ?? 'No Type',
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontSize: 14,
@@ -168,37 +177,53 @@ class MyEventCard extends StatelessWidget {
         const SizedBox(height: 4),
         Row(
           children: [
-            Icon(
-              isPrivate ? Icons.lock : Icons.public,
-              size: 14,
-              color: isPrivate ? Colors.orange : Colors.green,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              isPrivate ? 'Private' : 'Public',
-              style: TextStyle(
-                color: isPrivate ? Colors.orange : Colors.green,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: _getStatusColor(actualStatus),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                actualStatus.name.toUpperCase(),
+                style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(width: 12),
-            Icon(
-              Icons.schedule,
-              size: 14,
-              color: Colors.orange,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              'Pending',
-              style: TextStyle(
-                color: Colors.orange,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: event.privacy == 'private' ? Colors.orange : Colors.green,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    event.privacy == 'private' ? Icons.lock : Icons.public,
+                    size: 10,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 2),
+                  Text(
+                    (event.privacy ?? 'public').toUpperCase(),
+                    style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
           ],
         ),
+        if (event.price != null) ...[
+          const SizedBox(height: 4),
+          Text(
+            '\$ ${event.price!.toStringAsFixed(2)}',
+            style: const TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+        ],
       ],
     );
   }

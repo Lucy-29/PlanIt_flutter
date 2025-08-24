@@ -8,7 +8,6 @@ class ContactUsScreen extends StatelessWidget {
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
       path: 'PLANit@gmail.com',
-      // query: 'subject=App Support&body=Hi, I need help with...',
     );
     await launchUrl(emailLaunchUri);
   }
@@ -17,11 +16,6 @@ class ContactUsScreen extends StatelessWidget {
     final Uri phoneUri = Uri(scheme: 'tel', path: '+1234567890');
     await launchUrl(phoneUri);
   }
-
-  // void _launchWebsite() async {
-  //   final Uri websiteUri = Uri.parse('https://yourwebsite.com/contact');
-  //   await launchUrl(websiteUri);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +37,6 @@ class ContactUsScreen extends StatelessWidget {
               subtitle: const Text('+1 234 567 890'),
               onTap: _launchPhone,
             ),
-            // ListTile(
-            //   leading: const Icon(Icons.language),
-            //   title: const Text('Website'),
-            //   subtitle: const Text('www.yourwebsite.com'),
-            //   onTap: _launchWebsite,
-            // ),
           ],
         ),
       ),

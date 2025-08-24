@@ -1,8 +1,10 @@
+import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
 import 'package:ems_1/features/auth/presentation/screens/service_selection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ems_1/features/auth/presentation/screens/registration_type.dart';
 import 'package:ems_1/features/auth/presentation/screens/register_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupOptionsPage extends StatelessWidget {
   const SignupOptionsPage({super.key});
@@ -165,7 +167,9 @@ class SignupOptionsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<AuthCubit>().loginAsGuest();
+                      },
                       child: Text(
                         'continue as guest',
                         style: TextStyle(

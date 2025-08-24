@@ -1,4 +1,6 @@
+import 'package:ems_1/common/widgets/show_guest_alert.dart';
 import 'package:ems_1/core/themes/app_themes.dart';
+import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/create_event/create_event_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/events/events_screen.dart';
@@ -19,6 +21,7 @@ import 'package:ems_1/features/home/presentation/screens/favorite/favoriteScreen
 
 //import 'package:ems_1/features/home/Favorite/screens/favoriteScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserScreens extends StatefulWidget {
   const UserScreens({super.key});
@@ -36,13 +39,16 @@ class _UserScreensState extends State<UserScreens> {
     UserHomeScreen(),
     CalendarScreen(),
     EventsScreen(),
-   // Addeventscreen()
+    // Addeventscreen()
     Favoritescreen(),
     SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthCubit>().state;
+    final isGuest = authState is Authenticated && authState.isGuest;
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final List<Widget> navBarItems = <Widget>[
       Icon(
@@ -89,8 +95,10 @@ class _UserScreensState extends State<UserScreens> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const CreateEventScreen()));
+          isGuest
+              ? showGuestAlert(context)
+              : Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const CreateEventScreen()));
         },
         child: Icon(Icons.add),
         shape: RoundedRectangleBorder(

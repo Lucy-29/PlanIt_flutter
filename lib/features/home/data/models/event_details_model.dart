@@ -1,9 +1,9 @@
-import 'package:ems_1/features/home/data/models/selected_provider_model.dart';
+import 'package:ems_1/features/home/data/models/selected_offer_model.dart';
 import 'package:equatable/equatable.dart';
 
 enum EventPrivacy { private, public }
 
-class CreateEventModel extends Equatable {
+class EventDetailsModel extends Equatable {
   final String id; // <-- 1. ADD A UNIQUE ID
 
   final String eventName;
@@ -14,9 +14,9 @@ class CreateEventModel extends Equatable {
   final String description;
   final double price;
   final String? imagePath;
-  final List<SelectedProviderModel> selectedProviders; // <-- NEW FIELD
+  final List<SelectedOfferModel> selectedOffers; // <-- NEW FIELD
 
-  const CreateEventModel({
+  const EventDetailsModel({
     required this.id, // <-- 2. ADD TO CONSTRUCTOR
 
     required this.eventName,
@@ -27,12 +27,12 @@ class CreateEventModel extends Equatable {
     required this.description,
     required this.price,
     this.imagePath,
-    required this.selectedProviders, // <-- NEW
+    required this.selectedOffers, // <-- NEW
   });
 
   // Factory for the initial empty state of the form
-  factory CreateEventModel.initial() {
-    return CreateEventModel(
+  factory EventDetailsModel.initial() {
+    return EventDetailsModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
 
       eventName: '',
@@ -43,12 +43,12 @@ class CreateEventModel extends Equatable {
       description: '',
       price: 0.0,
       imagePath: null,
-      selectedProviders: const [], // <-- NEW
+      selectedOffers: const [], // <-- NEW
     );
   }
 
   // Helper to easily create a new state with updated values
-  CreateEventModel copyWith({
+  EventDetailsModel copyWith({
     String? id, // <-- 4. ADD TO copyWith
 
     String? eventName,
@@ -59,9 +59,9 @@ class CreateEventModel extends Equatable {
     String? description,
     double? price,
     String? imagePath,
-    List<SelectedProviderModel>? selectedProviders, // <-- NEW
+    List<SelectedOfferModel>? selectedOffers, // <-- NEW
   }) {
-    return CreateEventModel(
+    return EventDetailsModel(
       id: id ?? this.id, // <-- 5. UPDATE in copyWith
 
       eventName: eventName ?? this.eventName,
@@ -72,7 +72,7 @@ class CreateEventModel extends Equatable {
       description: description ?? this.description,
       price: price ?? this.price,
       imagePath: imagePath ?? this.imagePath,
-      selectedProviders: selectedProviders ?? this.selectedProviders, // <-- NEW
+      selectedOffers: selectedOffers ?? this.selectedOffers, // <-- NEW
     );
   }
 
@@ -87,6 +87,6 @@ class CreateEventModel extends Equatable {
         description,
         price,
         imagePath,
-        selectedProviders
+        selectedOffers
       ];
 }
