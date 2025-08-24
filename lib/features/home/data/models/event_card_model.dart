@@ -1,6 +1,8 @@
 import 'package:ems_1/features/home/data/models/company_model.dart';
 
 class EventCardModel {
+  bool isFavorite = false;
+
   final String imageUrl;
   final String title;
   final String date;
@@ -11,6 +13,7 @@ class EventCardModel {
   final String desc;
   final double price;
   final String eventType;
+  ////////////////////////////////////////////
 
   EventCardModel(
       {required this.imageUrl,

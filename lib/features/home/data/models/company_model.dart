@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:ems_1/common/widgets/event_card.dart';
 
 class CompanyModel {
+  bool isFavorite = false;
   final String companyName;
   final String companyImageUrl;
   final String discription;
@@ -14,5 +15,4 @@ class CompanyModel {
       required this.companyImageUrl,
       required this.discription,
       required this.location});
-      
 }
