@@ -10,11 +10,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ems_1/features/auth/domain/repositories/auth_repository.dart';
 import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/core/themes/app_themes.dart';
+import 'package:provider/provider.dart';
+import 'package:ems_1/features/home/presentation/screens/favorite/Fav_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => FavoritesProvider(), 
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +44,7 @@ class MyApp extends StatelessWidget {
             theme: AppThemes().lightTheme,
             darkTheme: AppThemes().darkTheme,
             themeMode: state is ThemesDark ? ThemeMode.dark : ThemeMode.light,
-            home: UserScreens(),
+            home: const UserScreens(),
           );
         },
       ),

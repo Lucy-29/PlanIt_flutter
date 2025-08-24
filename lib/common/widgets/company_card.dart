@@ -4,8 +4,9 @@ import 'package:ems_1/features/home/data/models/company_model.dart';
 import 'package:flutter/material.dart';
 
 class CompanyCard extends StatelessWidget {
-  CompanyModel companyModel;
-  CompanyCard({super.key, required this.companyModel});
+  final CompanyModel companyModel;
+  final VoidCallback? onFavoriteToggle;
+  CompanyCard({super.key, required this.companyModel, this.onFavoriteToggle});
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -87,11 +88,14 @@ class CompanyCard extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                 ),
                 child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite_border_outlined,
-                      color: Color(0xffD99A9A),
-                    )),
+                  onPressed: onFavoriteToggle,
+                  icon: Icon(
+                    companyModel.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: companyModel.isFavorite ? Color(0xffD99A9A) : null,
+                  ),
+                ),
               ),
             ),
           ),

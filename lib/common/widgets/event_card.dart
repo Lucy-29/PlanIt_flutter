@@ -158,7 +158,13 @@ import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final EventCardModel eventCardModel;
-  const EventCard({required this.eventCardModel, super.key});
+  final Function(EventCardModel)? onFavoriteToggle;
+
+  const EventCard({
+    required this.eventCardModel,
+    super.key,
+    this.onFavoriteToggle,
+  });
 
   Color _getColorForEventType(String type) {
     switch (type) {
@@ -186,44 +192,46 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final backgroundColor = _getColorForEventType(eventCardModel.eventType);
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    EventDetailsScreen(eventCardModel: eventCardModel)));
-      },
-      child: Container(
-        margin: const EdgeInsets.all(5),
-        width: 250,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          children: [
-            buildImage(),
-            const SizedBox(height: 5),
-            buildInfo(),
-          ],
-        ),
+
+    return Container(
+      margin: const EdgeInsets.all(5),
+      width: 250,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        children: [
+          buildImage(context),
+          const SizedBox(height: 5),
+          buildInfo(),
+        ],
       ),
     );
   }
 
-  Widget buildImage() {
+  Widget buildImage(BuildContext context) {
     return Stack(
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: Image.network(
-              eventCardModel.imageUrl,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EventDetailsScreen(eventCardModel: eventCardModel)),
+                );
+              },
+              child: Image.network(
+                eventCardModel.imageUrl,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -263,28 +271,36 @@ class EventCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                ),
+              child: Material(
+                color: Colors.transparent, // مهم ليستقبل الضغط
                 child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_border_outlined,
-                      color: Color(0xffD99A9A),
-                    )),
+                  onPressed: () {
+                    if (onFavoriteToggle != null) {
+                      onFavoriteToggle!(eventCardModel);
+                    }
+                  },
+                  icon: Icon(
+                    eventCardModel.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                    color: eventCardModel.isFavorite
+                        ? Color(0xffD99A9A)
+                        : const Color(0xffD99A9A),
+                  ),
+                ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
 
   Widget buildInfo() {
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 10, bottom: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             eventCardModel.title,
@@ -294,7 +310,8 @@ class EventCard extends StatelessWidget {
           ),
           Row(
             children: [
-              Icon(Icons.event_available_outlined),
+              const Icon(Icons.event_available_outlined),
+              const SizedBox(width: 4),
               Text(
                 eventCardModel.eventType,
                 style: const TextStyle(
@@ -305,13 +322,12 @@ class EventCard extends StatelessWidget {
           Row(
             children: [
               const Icon(Icons.location_on),
+              const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   eventCardModel.location,
                   style: const TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Colors.black54, fontWeight: FontWeight.bold),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

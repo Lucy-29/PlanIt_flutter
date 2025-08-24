@@ -97,11 +97,13 @@ import 'package:ems_1/features/home/data/models/create_event_model.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
 import 'package:ems_1/features/home/presentation/cubit/my_event/my_event_cubit.dart';
 import 'package:ems_1/features/home/presentation/screens/create_event/my_event_card.dart';
+import 'package:ems_1/features/home/presentation/screens/favorite/Fav_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Import BOTH card models and widgets
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
+import 'package:provider/provider.dart';
 
 class PopularEventsScreen extends StatelessWidget {
   final List<EventCardModel> dummyList = [
@@ -266,11 +268,11 @@ class PopularEventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Popular Events'),
-      ),
-      body: BlocBuilder<MyEventCubit, MyEventState>(
-        builder: (context, myEventsState) {
+        appBar: AppBar(
+          title: const Text('Popular Events'),
+        ),
+        body: BlocBuilder<MyEventCubit, MyEventState>(
+            builder: (context, myEventsState) {
           // --- PREPARE THE LISTS ---
 
           // 1. Get ONLY the public events created by the user (these use EventModel)
@@ -291,32 +293,33 @@ class PopularEventsScreen extends StatelessWidget {
 
           // --- BUILD THE UI ---
 
-          return ListView.builder(
-              itemCount: allPopularEvents.length,
-              itemBuilder: (context, index) {
-                final item = allPopularEvents[index];
+          return Consumer<FavoritesProvider>(
+            builder: (context, favProvider, child) {
+              return ListView.builder(
+                itemCount: allPopularEvents.length,
+                itemBuilder: (context, index) {
+                  final item = allPopularEvents[index];
 
-                // 👇 THE CRITICAL LOGIC: CHECK THE TYPE OF THE ITEM
+                  if (item is CreateEventModel) {
+                    return MyEventCard(
+                      createEventModel: item,
+                      onEdit: () {},
+                      onDelete: () {},
+                    );
+                  } else if (item is EventCardModel) {
+                    return EventCard(
+                      eventCardModel: item,
+                      onFavoriteToggle: (e) {
+                        favProvider.toggleEvent(item);
+                      },
+                    );
+                  }
 
-                if (item is CreateEventModel) {
-                  // If the item is an `EventModel`, it's one of YOUR events.
-                  // Therefore, we must use the `MyEventCard` widget.
-                  return MyEventCard(
-                    createEventModel: item,
-                    onEdit: () {},
-                    onDelete: () {},
-                  );
-                } else if (item is EventCardModel) {
-                  // If the item is an `EventCardModel`, it's an event from someone else.
-                  // Therefore, we use the standard `EventCard` widget.
-                  return EventCard(eventCardModel: item);
-                }
-
-                // Return an empty container as a fallback to avoid errors
-                return Container();
-              });
-        },
-      ),
-    );
+                  return Container();
+                },
+              );
+            },
+          );
+        }));
   }
 }
