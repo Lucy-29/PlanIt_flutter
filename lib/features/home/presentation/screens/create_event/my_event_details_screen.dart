@@ -37,15 +37,17 @@ class MyEventDetailsScreen extends StatelessWidget {
     );
   }
 
-  String get approvalStatus => 'pending'; // Mock data - replace with actual status
-  String get privacyStatus => event.privacy == EventPrivacy.private ? 'private' : 'public';
+  String get approvalStatus =>
+      'pending'; // Mock data - replace with actual status
+  String get privacyStatus =>
+      event.privacy == EventPrivacy.private ? 'private' : 'public';
 
   @override
   Widget build(BuildContext context) {
     final authState = context.watch<AuthCubit>().state;
     final isGuest = authState is Authenticated && authState.isGuest;
     final eventCardModel = _convertToEventCardModel();
-    
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -126,15 +128,21 @@ class MyEventDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          privacyStatus == 'private' ? Icons.lock : Icons.public,
-                          color: privacyStatus == 'private' ? Colors.orange : Colors.blue,
+                          privacyStatus == 'private'
+                              ? Icons.lock
+                              : Icons.public,
+                          color: privacyStatus == 'private'
+                              ? Colors.orange
+                              : Colors.blue,
                         ),
                         SizedBox(width: 10),
                         Text(
                           'Privacy: ${privacyStatus.toUpperCase()}',
                           style: TextStyle(
                             fontSize: 18,
-                            color: privacyStatus == 'private' ? Colors.orange : Colors.blue,
+                            color: privacyStatus == 'private'
+                                ? Colors.orange
+                                : Colors.blue,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
