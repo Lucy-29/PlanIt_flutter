@@ -15,4 +15,12 @@ class CompanyModel {
       required this.companyImageUrl,
       required this.discription,
       required this.location});
+        factory CompanyModel.fromJson(Map<String, dynamic> json) {
+    return CompanyModel(
+      companyName: json['companyName'] ?? 'Unknown',
+      companyImageUrl: json['companyImageUrl'] ?? '',
+      discription: json['discription'] ?? '',
+      location: json['location'] ?? '',
+    );
+  }
 }

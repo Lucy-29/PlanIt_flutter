@@ -1,3 +1,5 @@
+import 'package:ems_1/features/home/data/models/event_card_model.dart';
+
 import 'base_user_model.dart';
 
 class SimpleUserModel extends BaseUserModel {
@@ -5,6 +7,7 @@ class SimpleUserModel extends BaseUserModel {
     required super.id,
     required super.name,
     required super.email,
+
   }) : super(type: 'user');
 
   factory SimpleUserModel.fromJson(Map<String, dynamic> json) {

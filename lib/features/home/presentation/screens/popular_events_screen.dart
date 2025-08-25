@@ -124,7 +124,7 @@ class PopularEventsScreen extends StatelessWidget {
       desc:
           'sdfEFKMfm[mef[mF[PMA{OF[APM[SPODVPSDLM[PSMLG[PSMFSP[MF[PSMF[PAM[PDFMA[DMA[PMLDA[MDLAMFDLMA[DMA[PLMDA[LMFA[PLMF[APLMSF[AMF]]]]]]]]]]]]]]]]]}]]]',
       price: 100,
-      eventType: '',
+      eventType: '', 
     ),
     EventCardModel(
       imageUrl:
