@@ -10,7 +10,7 @@ class CompanyUserModel extends BaseUserModel {
     required super.email,
     this.service,
     this.providerType,
-  }) : super(type: 'company');
+  }) : super(type: 'provider');
 
   factory CompanyUserModel.fromJson(Map<String, dynamic> json) {
     return CompanyUserModel(

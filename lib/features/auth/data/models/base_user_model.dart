@@ -28,6 +28,7 @@ abstract class BaseUserModel extends Equatable {
     } else if (userType == 'user') {
       return SimpleUserModel.fromJson(json);
     } else {
+      // Default fallback to SimpleUserModel
       return SimpleUserModel.fromJson(json);
     }
   }

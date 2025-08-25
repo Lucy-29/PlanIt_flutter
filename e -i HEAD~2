@@ -1,0 +1,23 @@
+[33mcommit 640c2ff53c5c39cbb882c99d7951faf31f86e5e2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Ghaly88 <ghaly.nseir@gmail.com>
+Date:   Mon Aug 25 17:58:03 2025 +0300
+
+    sdsd
+
+[1mdiff --git a/lib/main.dart b/lib/main.dart[m
+[1mindex 89be7e1..b43b8ff 100644[m
+[1m--- a/lib/main.dart[m
+[1m+++ b/lib/main.dart[m
+[36m@@ -1,4 +1,3 @@[m
+[31m-import 'package:ems_1/core/secret/stripe_key.dart';[m
+ import 'package:ems_1/core/service_locator/service_locator.dart';[m
+ import 'package:ems_1/features/auth/presentation/screens/login_page.dart';[m
+ import 'package:ems_1/features/company/presentation/screens/company_events_screen.dart';[m
+[36m@@ -27,7 +26,6 @@[m [mimport 'package:ems_1/features/home/presentation/screens/favorite/Fav_provider.d[m
+ [m
+ void main() async {[m
+   WidgetsFlutterBinding.ensureInitialized();[m
+[31m-  Stripe.publishableKey = pubkey;[m
+   setupServiceLocator();[m
+   runApp([m
+     ChangeNotifierProvider([m

@@ -94,9 +94,7 @@ class _AppRouterState extends State<AppRouter> {
           return BlocBuilder<AuthCubit, AuthState>(
             builder: (context, authState) {
               if (authState is Authenticated) {
-                if (authState.user.type == 'provider') {
-                  return CompanyScreens();
-                } else if (authState.user.type == 'company') {
+                if (authState.user.type == 'provider' || authState.user.type == 'company') {
                   return const CompanyScreens();
                 } else {
                   return const UserScreens();
