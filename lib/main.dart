@@ -1,4 +1,3 @@
-import 'package:ems_1/core/secret/stripe_key.dart';
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
 import 'package:ems_1/features/company/presentation/screens/company_events_screen.dart';
@@ -27,7 +26,6 @@ import 'package:ems_1/features/home/presentation/screens/favorite/Fav_provider.d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = pubkey;
   setupServiceLocator();
   runApp(
     ChangeNotifierProvider(
