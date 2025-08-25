@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
 import 'package:ems_1/features/auth/data/models/company_user_model.dart';
@@ -10,8 +11,10 @@ import 'package:ems_1/features/company/presentation/screens/company_gallery_scre
 import 'package:ems_1/features/company/presentation/screens/company_profile_screen.dart';
 import 'package:ems_1/features/company/presentation/screens/company_statistics_screen.dart';
 import 'package:ems_1/features/home/domain/repositories/event_repository.dart';
+import 'package:ems_1/features/home/presentation/cubit/calander_events/events_cubit.dart';
 import 'package:ems_1/features/home/presentation/cubit/my_event/my_event_cubit.dart';
 import 'package:ems_1/features/home/presentation/cubit/themes/themes_cubit.dart';
+import 'package:ems_1/features/home/presentation/screens/calendar_screen.dart';
 import 'package:ems_1/features/home/presentation/screens/user_screens.dart';
 import 'package:ems_1/features/company/presentation/screens/company_screens.dart';
 import 'package:ems_1/features/splashscreens/presentation/cubit/splashscreen_cubit/splash_screen_cubit.dart';
@@ -43,6 +46,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+       BlocProvider(
+          create: (_) => CalendarCubit(Dio())..fetchEvents(),
+          child: CalendarScreen(),
+        ),
         BlocProvider(create: (context) => AuthCubit(sl<AuthRepository>())),
         BlocProvider(create: (context) => SplashScreenCubit()),
         BlocProvider(create: (context) => ThemesCubit()),

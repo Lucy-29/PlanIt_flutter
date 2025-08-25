@@ -26,4 +26,27 @@ class EventCardModel {
       required this.desc,
       required this.price,
       required this.eventType});
+        factory EventCardModel.fromJson(Map<String, dynamic> json) {
+    return EventCardModel(
+      imageUrl: json['imageUrl'] ?? '',
+      title: json['title'] ?? 'Untitled',
+      date: json['date'] ?? '',
+      location: json['location'] ?? 'Unknown',
+      goingCount: json['goingCount'] ?? 0,
+      organizer: json['organizer'] != null
+          ? CompanyModel.fromJson(json['organizer'])
+          : CompanyModel(
+              companyName: 'Unknown',
+              companyImageUrl: '',
+              discription: '',
+              location: '',
+            ),
+      organizerImage: json['organizerImage'] ?? '',
+      desc: json['desc'] ?? '',
+      price: (json['price'] != null)
+          ? double.tryParse(json['price'].toString()) ?? 0.0
+          : 0.0,
+      eventType: json['eventType'] ?? 'Other',
+    );
+  }
 }
