@@ -78,23 +78,10 @@ class EventRepositoryImpl implements EventRepository {
       // DEBUG: Print the raw response to see what Laravel is sending
       print("🔍 DEBUG - Raw API Response: $responseData");
       
-      // Parse the response - expecting a list of events
+      // Parse the response - your backend returns events in 'events' key
       if (responseData.containsKey('events') && responseData['events'] is List) {
         final eventsList = responseData['events'] as List<dynamic>;
         print("🔍 DEBUG - Found ${eventsList.length} events in 'events' key");
-        return eventsList
-            .map((eventJson) => EventStatusModel.fromJson(eventJson as Map<String, dynamic>))
-            .toList();
-      } else if (responseData.containsKey('data') && responseData['data'] is List) {
-        final eventsList = responseData['data'] as List<dynamic>;
-        print("🔍 DEBUG - Found ${eventsList.length} events in 'data' key");
-        return eventsList
-            .map((eventJson) => EventStatusModel.fromJson(eventJson as Map<String, dynamic>))
-            .toList();
-      } else if (responseData is List) {
-        // Direct list response
-        final eventsList = responseData as List<dynamic>;
-        print("🔍 DEBUG - Found ${eventsList.length} events in direct list");
         return eventsList
             .map((eventJson) => EventStatusModel.fromJson(eventJson as Map<String, dynamic>))
             .toList();

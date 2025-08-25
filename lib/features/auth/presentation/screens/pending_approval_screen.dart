@@ -1,5 +1,6 @@
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/cubit/approval/approval_cubit.dart';
+import 'package:ems_1/features/company/presentation/screens/company_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,11 +48,26 @@ class PendingApprovalScreen extends StatelessWidget {
                   imagePath: 'assets/images/approved.png',
                   title: "Congratulations, ${state.status.name}!",
                   message:
-                      "Your application has been approved. You can now log in to access your account.",
-                  buttonText: "Proceed to Login",
-                  onButtonPressed: () {
-                    // Log out to clear the pending token and go to login screen
-                    context.read<AuthCubit>().logout();
+                      "Your application has been approved. You can now access your account.",
+                  buttonText: "Continue",
+                  onButtonPressed: () async {
+                    // Get the authenticated user and update auth cubit
+                    try {
+                      final user =
+                          await sl<AuthRepository>().getAuthenticatedUser();
+                      if (user != null) {
+                        context.read<AuthCubit>().userLoggedIn(user);
+                        // Navigate to company screens
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const CompanyScreens()),
+                          (route) => false,
+                        );
+                      }
+                    } catch (e) {
+                      // If there's an error, logout and go to login
+                      context.read<AuthCubit>().logout();
+                    }
                   },
                 );
               }

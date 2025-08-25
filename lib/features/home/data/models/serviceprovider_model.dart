@@ -17,6 +17,7 @@ class ServiceProviderModel {
   List<String> gallery = [];
   List<ProviderOfferModel> offers = [];
   double rate = 0.0;
+  bool isFavorite = false;
 
   ServiceProviderModel({
     required this.providerName,

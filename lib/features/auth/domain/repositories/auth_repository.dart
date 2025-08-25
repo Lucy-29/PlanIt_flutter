@@ -18,7 +18,7 @@ abstract class AuthRepository {
     required String password,
     required String passwordConfirmation,
     required String otp,
-    // required String service,
+    required List<String> services,
     required List<String> links,
   });
 
@@ -28,7 +28,7 @@ abstract class AuthRepository {
     required String password,
     required String passwordConfirmation,
     required String otp,
-    // required String service,
+    required List<String> specializations,
     required List<String> links,
   });
   Future<LoginResponseModel> login({

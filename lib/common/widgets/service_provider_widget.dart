@@ -7,8 +7,8 @@ import 'package:ems_1/common/widgets/service_card.dart';
 
 class ServiceProviderWidget extends StatelessWidget {
   final List<ServiceProviderModel> serviceProviderModel;
-
-  const ServiceProviderWidget({required this.serviceProviderModel, super.key});
+final Function(ServiceProviderModel)? onFavoriteToggle;
+  const ServiceProviderWidget({required this.serviceProviderModel, super.key, this.onFavoriteToggle});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,15 @@ class ServiceProviderWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: 3,
             itemBuilder: (context, index) {
-              return ServiceCard(serviceProviderModel: serviceProviderModel[index]);
+              final e = serviceProviderModel[index];
+              return ServiceCard(
+                serviceProviderModel: e,
+                onFavoriteToggle: () {
+                  if (onFavoriteToggle != null) {
+                    onFavoriteToggle!(e);
+                  }
+                },
+              );
             },
           ),
         ),

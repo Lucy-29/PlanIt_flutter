@@ -16,10 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'package:ems_1/features/home/presentation/screens/favorite/favoriteScreen.dart';
-
-//import 'package:ems_1/features/home/Favorite/screens/favoriteScreen.dart';
-
-//import 'package:ems_1/features/home/Favorite/screens/favoriteScreen.dart';
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

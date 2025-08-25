@@ -6,6 +6,7 @@ import 'package:ems_1/common/widgets/upoffers.dart';
 import 'package:ems_1/features/home/data/models/company_model.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
 import 'package:ems_1/features/home/data/models/offer_model.dart';
+import 'package:ems_1/features/home/presentation/screens/favorite/Fav_provider.dart';
 //import 'package:ems_1/features/home/data/models/service_card_model.dart';
 import 'package:ems_1/features/home/presentation/screens/notifications_screen.dart';
 import 'package:ems_1/features/home/data/models/provider_offer_model.dart';
@@ -15,6 +16,7 @@ import 'package:ems_1/common/widgets/service_provider_widget.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
 import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserHomeScreen extends StatelessWidget {
   UserHomeScreen({super.key});
@@ -212,6 +214,11 @@ class UserHomeScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    final favProvider = Provider.of<FavoritesProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      favProvider.setEvents(dummyList);
+      favProvider.setProviders(dummyServices);
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text("PLANit"),
@@ -242,9 +249,17 @@ class UserHomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: ListView(
                 children: [
-                  PopularEventsWidget(event: dummyList),
+                  PopularEventsWidget(
+                    event: dummyList,
+                    onFavoriteToggle: (EventCardModel e) =>
+                        favProvider.toggleEvent(e),
+                  ),
                   Invitefreinds(),
-                  ServiceProviderWidget(serviceProviderModel: dummyServices),
+                  ServiceProviderWidget(
+                    serviceProviderModel: dummyServices,
+                    onFavoriteToggle: (ServiceProviderModel s) =>
+                        favProvider.toggleProvider(s),
+                  ),
                   // ListView.builder(itemBuilder: itemBuilder)
                 ],
               ),

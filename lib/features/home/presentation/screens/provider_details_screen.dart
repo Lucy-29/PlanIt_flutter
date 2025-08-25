@@ -7,6 +7,8 @@ import 'package:ems_1/features/auth/data/models/rating_bar_widget.dart';
 import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/home/data/models/provider_rate_model.dart';
 import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
+import 'package:ems_1/features/home/presentation/cubit/provider_request/request_cubit.dart';
+import 'package:ems_1/features/home/presentation/screens/Reserve_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -315,19 +317,33 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
                   width: 10,
                   height: 10,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  height: 55,
-                  width: 170,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Color(0xffD99A9A), width: 1.7)),
-                  child: Text("Reserve now",
-                      style: TextStyle(
-                        color: Color(0xffD99A9A),
-                        fontWeight: FontWeight.w300,
-                        fontSize: 19,
-                      )),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider(
+                          create: (_) => RequestCubit(),
+                          child: ReserveProvider( provider: serviceCard),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 55,
+                    width: 170,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border:
+                            Border.all(color: Color(0xffD99A9A), width: 1.7)),
+                    child: Text("Reserve now",
+                        style: TextStyle(
+                          color: Color(0xffD99A9A),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 19,
+                        )),
+                  ),
                 )
               ],
             ),

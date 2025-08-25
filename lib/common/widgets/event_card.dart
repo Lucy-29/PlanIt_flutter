@@ -5,20 +5,12 @@ import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final EventCardModel eventCardModel;
-  final VoidCallback? onTap;
-  final bool? isPrivate; // New parameter for privacy
-  final VoidCallback? onEdit; // New parameter for edit action
-  final VoidCallback? onDelete; // New parameter for delete action
-  final bool showActions; // Whether to show edit/delete buttons
-  
+  final Function(EventCardModel)? onFavoriteToggle;
+
   const EventCard({
-    required this.eventCardModel, 
-    this.onTap, 
-    this.isPrivate,
-    this.onEdit,
-    this.onDelete,
-    this.showActions = false,
+    required this.eventCardModel,
     super.key,
+    this.onFavoriteToggle,
   });
 
   Color _getColorForEventType(String type) {
@@ -47,45 +39,46 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final backgroundColor = _getColorForEventType(eventCardModel.eventType);
-    return InkWell(
-      onTap: onTap ?? () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    EventDetailsScreen(eventCardModel: eventCardModel)));
-      },
-      child: Container(
-        margin: const EdgeInsets.all(5),
-        width: 250,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          children: [
-            buildImage(),
-            const SizedBox(height: 5),
-            buildInfo(),
-            if (showActions) buildActionButtons(),
-          ],
-        ),
+
+    return Container(
+      margin: const EdgeInsets.all(5),
+      width: 250,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        children: [
+          buildImage(context),
+          const SizedBox(height: 5),
+          buildInfo(),
+        ],
       ),
     );
   }
 
-  Widget buildImage() {
+  Widget buildImage(BuildContext context) {
     return Stack(
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: Image.network(
-              eventCardModel.imageUrl,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EventDetailsScreen(eventCardModel: eventCardModel)),
+                );
+              },
+              child: Image.network(
+                eventCardModel.imageUrl,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -125,33 +118,36 @@ class EventCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                ),
+              child: Material(
+                color: Colors.transparent, // مهم ليستقبل الضغط
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (onFavoriteToggle != null) {
+                      onFavoriteToggle!(eventCardModel);
+                    }
+                  },
                   icon: Icon(
-                    isPrivate != null 
-                      ? (isPrivate! ? Icons.lock_outline : Icons.public)
-                      : Icons.favorite_border_outlined,
-                    color: isPrivate != null
-                      ? (isPrivate! ? Colors.red.shade400 : Colors.green.shade400)
-                      : const Color(0xffD99A9A),
+                    eventCardModel.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                    color: eventCardModel.isFavorite
+                        ? Color(0xffD99A9A)
+                        : const Color(0xffD99A9A),
                   ),
                 ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
 
   Widget buildInfo() {
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 10, bottom: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             eventCardModel.title,
@@ -161,7 +157,8 @@ class EventCard extends StatelessWidget {
           ),
           Row(
             children: [
-              Icon(Icons.event_available_outlined),
+              const Icon(Icons.event_available_outlined),
+              const SizedBox(width: 4),
               Text(
                 eventCardModel.eventType,
                 style: const TextStyle(
@@ -172,13 +169,12 @@ class EventCard extends StatelessWidget {
           Row(
             children: [
               const Icon(Icons.location_on),
+              const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   eventCardModel.location,
                   style: const TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Colors.black54, fontWeight: FontWeight.bold),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -198,7 +194,9 @@ class EventCard extends StatelessWidget {
         children: [
           Expanded(
             child: ElevatedButton.icon(
-              onPressed: onEdit,
+              // onPressed: onEdit,
+              onPressed: () {},
+
               icon: const Icon(Icons.edit, size: 16),
               label: const Text('Edit', style: TextStyle(fontSize: 12)),
               style: ElevatedButton.styleFrom(
@@ -212,7 +210,9 @@ class EventCard extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: ElevatedButton.icon(
-              onPressed: onDelete,
+              // onPressed: onDelete,
+              onPressed: () {},
+
               icon: const Icon(Icons.delete, size: 16),
               label: const Text('Delete', style: TextStyle(fontSize: 12)),
               style: ElevatedButton.styleFrom(

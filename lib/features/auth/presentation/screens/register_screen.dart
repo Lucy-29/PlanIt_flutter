@@ -112,11 +112,11 @@ class _RegisterFormState extends State<RegisterForm> {
         .where((link) => link.isNotEmpty)
         .toList();
 
-    final servicesAsString = widget.initialService != null
+    final servicesAsList = widget.initialService != null
         ? widget.initialService!
             .map((service) => service.serviceName)
-            .join(', ')
-        : '';
+            .toList()
+        : <String>[];
     final cubit = context.read<RegistrationCubit>();
 
     switch (widget.type) {
@@ -136,7 +136,7 @@ class _RegisterFormState extends State<RegisterForm> {
           password: _passwordController.text,
           passwordConfirmation: _confirmPasswordController.text,
           otp: otpFromDialog,
-          service: servicesAsString,
+          services: servicesAsList,
           links: links,
         );
         break;
@@ -147,7 +147,7 @@ class _RegisterFormState extends State<RegisterForm> {
           password: _passwordController.text,
           passwordConfirmation: _confirmPasswordController.text,
           otp: otpFromDialog,
-          service: servicesAsString,
+          specializations: servicesAsList,
           links: links,
         );
         break;

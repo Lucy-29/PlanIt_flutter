@@ -38,7 +38,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required String password,
     required String passwordConfirmation,
     required String otp,
-    required String service,
+    required List<String> services,
     required List<String> links,
   }) async {
     emit(RegistrationLoading());
@@ -49,7 +49,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         password: password,
         passwordConfirmation: passwordConfirmation,
         otp: otp,
-        // service: service,
+        services: services,
         links: links,
       );
       emit(RegistrationSuccessProvider(response));
@@ -64,7 +64,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required String password,
     required String passwordConfirmation,
     required String otp,
-    required String service,
+    required List<String> specializations,
     required List<String> links,
   }) async {
     emit(RegistrationLoading());
@@ -75,7 +75,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         password: password,
         passwordConfirmation: passwordConfirmation,
         otp: otp,
-        // service: service,
+        specializations: specializations,
         links: links,
       );
       emit(RegistrationSuccessProvider(response));

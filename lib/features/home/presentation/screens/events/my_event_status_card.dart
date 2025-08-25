@@ -55,42 +55,40 @@ class MyEventStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final eventDate = DateFormat('EEE, MMM d • h:mm a').format(DateTime.parse('${event.date} ${event.time}'));
-    final backgroundColor = _getColorForEventType(event.eventType);
-
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => EventStatusDetailsScreen(event: event),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-        );
-      },
+        ],
+      ),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.all(16),
+          child: Column(
             children: [
-              buildImage(),
-              const SizedBox(width: 12),
-              Expanded(
-                child: buildInfo(eventDate),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildImage(),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: buildInfo(),
+                  ),
+                  buildFavoriteIcon(),
+                ],
               ),
-              buildFavoriteIcon(),
+              if (event.price != null) ...[
+                const SizedBox(height: 12),
+                buildReserveButton(),
+              ],
             ],
           ),
         ),
@@ -100,18 +98,45 @@ class MyEventStatusCard extends StatelessWidget {
 
   Widget buildImage() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
-        height: 80,
-        width: 80,
+        height: 90,
+        width: 90,
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(8),
+          gradient: LinearGradient(
+            colors: [
+              Colors.purple.shade400,
+              Colors.blue.shade400,
+              Colors.teal.shade400,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(12),
         ),
-        child: Icon(
-          Icons.event,
-          size: 30,
-          color: Colors.grey.shade500,
+        child: Stack(
+          children: [
+            // Background pattern
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                ),
+              ),
+            ),
+            // Event icon
+            Center(
+              child: Icon(
+                Icons.event,
+                size: 35,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -122,19 +147,21 @@ class MyEventStatusCard extends StatelessWidget {
     if (event.offers.isNotEmpty) {
       return event.status;
     }
-    
+
     // If no offers/providers, event is automatically approved
     return EventStatus.approved;
   }
 
-  Widget buildInfo(String eventDate) {
+  Widget buildInfo() {
+    // Safe date formatting
+    String formattedDate = _formatEventDate();
     final actualStatus = _getActualStatus();
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          eventDate,
+          formattedDate,
           style: TextStyle(
             color: Colors.blue.shade600,
             fontSize: 13,
@@ -156,14 +183,14 @@ class MyEventStatusCard extends StatelessWidget {
         Row(
           children: [
             Icon(
-              Icons.event_available_outlined,
+              Icons.location_on,
               size: 16,
               color: Colors.grey.shade600,
             ),
             const SizedBox(width: 4),
             Expanded(
               child: Text(
-                event.eventType ?? 'No Type',
+                event.location ?? 'No location',
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontSize: 14,
@@ -174,58 +201,82 @@ class MyEventStatusCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         Row(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: _getStatusColor(actualStatus),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 actualStatus.name.toUpperCase(),
-                style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(width: 8),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: event.privacy == 'private' ? Colors.orange : Colors.green,
-                borderRadius: BorderRadius.circular(8),
+                color:
+                    event.privacy == 'private' ? Colors.orange : Colors.green,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     event.privacy == 'private' ? Icons.lock : Icons.public,
-                    size: 10,
+                    size: 12,
                     color: Colors.white,
                   ),
-                  const SizedBox(width: 2),
+                  const SizedBox(width: 4),
                   Text(
                     (event.privacy ?? 'public').toUpperCase(),
-                    style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
           ],
         ),
-        if (event.price != null) ...[
-          const SizedBox(height: 4),
+        const SizedBox(height: 12),
+        // Event Description
+        if (event.description.isNotEmpty)
           Text(
-            '\$ ${event.price!.toStringAsFixed(2)}',
-            style: const TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
+            event.description,
+            style: TextStyle(
               fontSize: 14,
+              color: Colors.grey.shade700,
+              height: 1.4,
             ),
+            // maxLines: 3,
+            // overflow: TextOverflow.ellipsis,
           ),
-        ],
       ],
     );
+  }
+
+  String _formatEventDate() {
+    try {
+      // Handle backend time format (HH:mm:ss)
+      String timeStr = event.time;
+      if (timeStr.length > 5) {
+        timeStr = timeStr.substring(0, 5);
+      }
+
+      DateTime dateTime = DateTime.parse('${event.date} $timeStr');
+      return DateFormat('EEE, MMM d • h:mm a').format(dateTime);
+    } catch (e) {
+      return '${event.date} • ${event.time}';
+    }
   }
 
   Widget buildFavoriteIcon() {
@@ -245,6 +296,33 @@ class MyEventStatusCard extends StatelessWidget {
           Icons.favorite_border,
           size: 18,
           color: Colors.grey.shade600,
+        ),
+      ),
+    );
+  }
+
+  Widget buildReserveButton() {
+    return Container(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          // Reserve ticket functionality
+          print("Reserve ticket for event: ${event.title}");
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Text(
+          'Reserve Ticket - \$${event.price!.toStringAsFixed(0)}',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

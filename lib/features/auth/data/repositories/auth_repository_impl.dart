@@ -55,7 +55,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     required String passwordConfirmation,
     required String otp,
-    // required String service,
+    required List<String> services,
     required List<String> links,
   }) async {
     try {
@@ -65,7 +65,7 @@ class AuthRepositoryImpl implements AuthRepository {
         'password': password,
         'password_confirmation': passwordConfirmation,
         'otp': otp,
-        // 'service': service,
+        'services': services,
         'links': links,
       });
       await secureStorageService.saveToken(response.token);
@@ -82,17 +82,17 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     required String passwordConfirmation,
     required String otp,
-    // required String service,
+    required List<String> specializations,
     required List<String> links,
   }) async {
     try {
       final response = await apiDatasource.registerCompany(data: {
-        'company_name': companyName,
+        'name': companyName,
         'email': email,
         'password': password,
         'password_confirmation': passwordConfirmation,
         'otp': otp,
-        // 'service': service,
+        'specializations': specializations,
         'links': links,
       });
       await secureStorageService.saveToken(response.token);

@@ -17,16 +17,18 @@ abstract class BaseUserModel extends Equatable {
   });
 
   factory BaseUserModel.fromJson(Map<String, dynamic> json) {
-    switch (json['type']) {
-      case 'provider':
-        return IndividualProviderModel.fromJson(json);
-
-      case 'company':
-        return CompanyUserModel.fromJson(json);
-
-      case 'user':
-      default:
-        return SimpleUserModel.fromJson(json);
+    // Handle the backend structure where companies have type='provider' and provider_type='company'
+    final userType = json['type'];
+    final providerType = json['provider_type'];
+    
+    if (userType == 'provider' && providerType == 'company') {
+      return CompanyUserModel.fromJson(json);
+    } else if (userType == 'provider' && providerType == 'individual') {
+      return IndividualProviderModel.fromJson(json);
+    } else if (userType == 'user') {
+      return SimpleUserModel.fromJson(json);
+    } else {
+      return SimpleUserModel.fromJson(json);
     }
   }
 

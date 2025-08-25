@@ -47,6 +47,9 @@ class MyEventCubit extends Cubit<MyEventState> {
       price: newEvent.privacy == EventPrivacy.public ? newEvent.price : null,
       eventType: newEvent.eventType,
       privacy: newEvent.privacy.name,
+      location: newEvent.location,
+      organizerName: null, // Will be populated when we refresh from API
+      invitationCode: null,
       offers: [], // Will be populated when we refresh from API
     );
     
@@ -87,6 +90,9 @@ class MyEventCubit extends Cubit<MyEventState> {
       price: updatedEvent.privacy == EventPrivacy.public ? updatedEvent.price : null,
       eventType: updatedEvent.eventType,
       privacy: updatedEvent.privacy.name,
+      location: updatedEvent.location,
+      organizerName: null, // Will be populated when we refresh from API
+      invitationCode: null,
       offers: [], // Will be populated when we refresh from API
     );
     

@@ -13,6 +13,9 @@ class EventStatusModel extends Equatable {
   final double? price;
   final String? eventType;
   final String? privacy;
+  final String? location;
+  final String? organizerName;
+  final String? invitationCode;
   final List<OfferStatusModel> offers;
 
   const EventStatusModel({
@@ -25,6 +28,9 @@ class EventStatusModel extends Equatable {
     this.price,
     this.eventType,
     this.privacy,
+    this.location,
+    this.organizerName,
+    this.invitationCode,
     required this.offers,
   });
 
@@ -32,8 +38,8 @@ class EventStatusModel extends Equatable {
     // Handle privacy parsing more robustly
     String privacyValue = 'private'; // default
     if (json['is_public'] != null) {
-      final isPublic = json['is_public'].toString().toLowerCase();
-      privacyValue = (isPublic == 'public' || isPublic == '1' || isPublic == 'true') ? 'public' : 'private';
+      final isPublic = json['is_public'];
+      privacyValue = (isPublic == true || isPublic == 1 || isPublic == '1') ? 'public' : 'private';
     } else if (json['privacy'] != null) {
       privacyValue = json['privacy'].toString().toLowerCase() == 'public' ? 'public' : 'private';
     }
@@ -48,6 +54,9 @@ class EventStatusModel extends Equatable {
       price: json['price'] != null ? double.tryParse(json['price'].toString()) : null,
       eventType: json['type']?.toString() ?? json['event_type']?.toString(),
       privacy: privacyValue,
+      location: json['location']?.toString(),
+      organizerName: json['user']?['name']?.toString(),
+      invitationCode: json['invitation_code']?.toString(),
       offers: (json['offers'] as List<dynamic>?)
           ?.map((offer) => OfferStatusModel.fromJson(offer))
           .toList() ?? [],
@@ -67,7 +76,7 @@ class EventStatusModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [eventId, status, title, date, time, description, price, eventType, privacy, offers];
+  List<Object?> get props => [eventId, status, title, date, time, description, price, eventType, privacy, location, organizerName, invitationCode, offers];
 }
 
 class OfferStatusModel extends Equatable {

@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 
 class CompanyCard extends StatelessWidget {
   final CompanyModel companyModel;
-  final VoidCallback? onTap;
-  
-  const CompanyCard({super.key, required this.companyModel, this.onTap});
-  
+  final VoidCallback? onFavoriteToggle;
+  CompanyCard({super.key, required this.companyModel, this.onFavoriteToggle});
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      // onTap: onTap,
+      onTap: () {},
       borderRadius: BorderRadius.circular(20),
       child: Container(
         margin: EdgeInsets.all(5),
@@ -83,11 +82,14 @@ class CompanyCard extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                 ),
                 child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite_border_outlined,
-                      color: Color(0xffD99A9A),
-                    )),
+                  onPressed: onFavoriteToggle,
+                  icon: Icon(
+                    companyModel.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: companyModel.isFavorite ? Color(0xffD99A9A) : null,
+                  ),
+                ),
               ),
             ),
           ),

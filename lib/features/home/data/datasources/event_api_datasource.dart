@@ -54,13 +54,29 @@ class EventApiDatasource {
   // Get user's created events
   Future<Map<String, dynamic>> getUserEvents() async {
     try {
+      print("🔍 DEBUG - Making request to /user/events");
       final response = await dio.get('/user/events');
+      print("✅ DEBUG - Successfully got user events: ${response.data}");
       return response.data;
     } on DioException catch (e) {
-      final errorMessage = e.response?.data?['message'] ??
-          'Failed to fetch user events.';
-      print("API Error fetching user events: ${e.response?.data}");
-      throw Exception(errorMessage);
+      print("❌ DEBUG - DioException details:");
+      print("   Status Code: ${e.response?.statusCode}");
+      print("   Response Data: ${e.response?.data}");
+      print("   Request Path: ${e.requestOptions.path}");
+      print("   Headers: ${e.requestOptions.headers}");
+      
+      if (e.response?.statusCode == 401) {
+        throw Exception('Authentication required. Please log in again.');
+      } else if (e.response?.statusCode == 404) {
+        throw Exception('User events endpoint not found. Check your API.');
+      } else {
+        final errorMessage = e.response?.data?['message'] ??
+            'Failed to fetch user events.';
+        throw Exception(errorMessage);
+      }
+    } catch (e) {
+      print("❌ DEBUG - Other error: $e");
+      throw Exception('Network error: $e');
     }
   }
 

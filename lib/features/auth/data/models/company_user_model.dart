@@ -1,13 +1,15 @@
 import 'base_user_model.dart';
 
 class CompanyUserModel extends BaseUserModel {
-  final String service;
+  final String? service;
+  final String? providerType;
 
   const CompanyUserModel({
     required super.id,
     required super.name,
     required super.email,
-    required this.service,
+    this.service,
+    this.providerType,
   }) : super(type: 'company');
 
   factory CompanyUserModel.fromJson(Map<String, dynamic> json) {
@@ -16,9 +18,10 @@ class CompanyUserModel extends BaseUserModel {
       name: json['name'],
       email: json['email'],
       service: json['service'],
+      providerType: json['provider_type'],
     );
   }
 
   @override
-  List<Object?> get props => [...super.props, service];
+  List<Object?> get props => [...super.props, service, providerType];
 }
