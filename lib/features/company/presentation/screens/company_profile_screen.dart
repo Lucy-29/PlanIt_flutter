@@ -67,6 +67,11 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
     final authState = context.read<AuthCubit>().state;
     if (authState is Authenticated) {
       final companyId = authState.user.id;
+      print('Profile Screen: Updating profile for company ID: $companyId');
+      print('Profile Screen: Name: ${_companyNameController.text}');
+      print('Profile Screen: Email: ${_emailController.text}');
+      print('Profile Screen: Description: ${_descriptionController.text}');
+      
       context.read<CompanyProfileCubit>().updateProfile(
         companyId: companyId,
         name: _companyNameController.text.isNotEmpty ? _companyNameController.text : null,
@@ -74,6 +79,8 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
         description: _descriptionController.text.isNotEmpty ? _descriptionController.text : null,
         profileImage: _selectedImage,
       );
+    } else {
+      print('Profile Screen: No authenticated user found!');
     }
   }
 
@@ -179,7 +186,6 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
     required String label,
     required String hintText,
     int maxLines = 1,
-    VoidCallback? onEditPressed,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -208,14 +214,7 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
                 hintStyle: TextStyle(color: Colors.grey.shade500),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.all(16),
-                suffixIcon: onEditPressed != null 
-                    ? IconButton(
-                        icon: const Icon(Icons.edit, size: 20),
-                        onPressed: onEditPressed,
-                      )
-                    : null,
               ),
-              onSubmitted: (_) => _updateProfile(),
             ),
           ),
         ],
@@ -312,14 +311,12 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
                     controller: _companyNameController,
                     label: 'company name',
                     hintText: 'Enter company name',
-                    onEditPressed: _updateProfile,
                   ),
                   
                   _buildTextField(
                     controller: _emailController,
                     label: 'email',
                     hintText: 'Enter email address',
-                    onEditPressed: _updateProfile,
                   ),
                   
                   _buildTextField(
@@ -327,132 +324,104 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
                     label: 'about us',
                     hintText: 'company description ........',
                     maxLines: 4,
-                    onEditPressed: _updateProfile,
+                  ),
+                  
+                  const SizedBox(height: 20),
+                  
+                  // Update Profile Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _updateProfile,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange.shade600,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 2,
+                      ),
+                      child: const Text(
+                        'Update Profile',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                   
                   const SizedBox(height: 24),
                   
-                  // Gallery Section
-                  SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'gallery',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade600,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        SizedBox(
+                  // Gallery Section - Clean Design
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
                           height: 120,
-                          child: Row(
-                            children: [
-                              // Gallery Images (placeholder)
-                              Expanded(
-                                child: ListView.builder(
+                          child: profile.gallery != null && profile.gallery!.isNotEmpty
+                              ? ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: 4, // placeholder count
+                                  itemCount: profile.gallery!.length,
                                   itemBuilder: (context, index) {
-                                    return Stack(
-                                      children: [
-                                        Container(
-                                          width: 100,
-                                          height: 100,
-                                          margin: const EdgeInsets.only(right: 8),
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade200,
-                                            borderRadius: BorderRadius.circular(8),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974',
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                    final image = profile.gallery![index];
+                                    return Container(
+                                      width: 100,
+                                      height: 100,
+                                      margin: const EdgeInsets.only(right: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: BorderRadius.circular(8),
+                                        image: DecorationImage(
+                                          image: NetworkImage(image.imagePath),
+                                          fit: BoxFit.cover,
                                         ),
-                                        // Edit icon overlay
-                                        Positioned(
-                                          top: 4,
-                                          right: 12,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => const CompanyGalleryScreen(),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              padding: const EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withOpacity(0.6),
-                                                borderRadius: BorderRadius.circular(12),
-                                              ),
-                                              child: const Icon(
-                                                Icons.edit,
-                                                color: Colors.white,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     );
                                   },
-                                ),
-                              ),
-                              // Gallery Button
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const CompanyGalleryScreen(),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: Colors.blueGrey.shade100,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: Colors.blueGrey.shade200,
-                                      width: 1,
+                                )
+                              : Center(
+                                  child: Text(
+                                    'No gallery images yet',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade500,
+                                      fontSize: 14,
                                     ),
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.photo_library,
-                                        color: Colors.blueGrey.shade600,
-                                        size: 24,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        'Gallery',
-                                        style: TextStyle(
-                                          color: Colors.blueGrey.shade600,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                              ),
-                            ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      // Gallery Edit Icon
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CompanyGalleryScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade100,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: Colors.orange.shade200,
+                              width: 1,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.orange.shade600,
+                            size: 24,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

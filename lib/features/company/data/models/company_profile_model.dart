@@ -7,7 +7,7 @@ class CompanyProfileModel extends Equatable {
   final String email;
   final String? description;
   final String? profileImage;
-  final String service; // company type from signup
+  final String? providerType; // company type from backend
   final List<String>? specializations;
   final List<GalleryImageModel>? gallery;
   final DateTime? createdAt;
@@ -19,7 +19,7 @@ class CompanyProfileModel extends Equatable {
     required this.email,
     this.description,
     this.profileImage,
-    required this.service,
+    this.providerType,
     this.specializations,
     this.gallery,
     this.createdAt,
@@ -28,12 +28,12 @@ class CompanyProfileModel extends Equatable {
 
   factory CompanyProfileModel.fromJson(Map<String, dynamic> json) {
     return CompanyProfileModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
+      id: _parseInt(json['id']),
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
       description: json['description'],
       profileImage: json['profile_image'],
-      service: json['service'] ?? '',
+      providerType: json['provider_type'],
       specializations: json['specializations'] != null 
           ? List<String>.from(json['specializations'])
           : null,
@@ -56,7 +56,7 @@ class CompanyProfileModel extends Equatable {
       'email': email,
       'description': description,
       'profile_image': profileImage,
-      'service': service,
+      'provider_type': providerType,
       'specializations': specializations,
       'gallery': gallery?.map((img) => img.toJson()).toList(),
       'created_at': createdAt?.toIso8601String(),
@@ -70,7 +70,7 @@ class CompanyProfileModel extends Equatable {
     String? email,
     String? description,
     String? profileImage,
-    String? service,
+    String? providerType,
     List<String>? specializations,
     List<GalleryImageModel>? gallery,
     DateTime? createdAt,
@@ -82,12 +82,20 @@ class CompanyProfileModel extends Equatable {
       email: email ?? this.email,
       description: description ?? this.description,
       profileImage: profileImage ?? this.profileImage,
-      service: service ?? this.service,
+      providerType: providerType ?? this.providerType,
       specializations: specializations ?? this.specializations,
       gallery: gallery ?? this.gallery,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is double) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
   }
 
   @override
@@ -97,7 +105,7 @@ class CompanyProfileModel extends Equatable {
     email,
     description,
     profileImage,
-    service,
+    providerType,
     specializations,
     gallery,
     createdAt,

@@ -28,7 +28,22 @@ class DioClient {
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
+          print('🌐 API Request: ${options.method} ${options.uri}');
+          print('🌐 Headers: ${options.headers}');
+          print('🌐 Body: ${options.data}');
           return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          print('✅ API Response: ${response.statusCode} ${response.requestOptions.uri}');
+          print('✅ Response Data: ${response.data}');
+          return handler.next(response);
+        },
+        onError: (error, handler) {
+          print('❌ API Error: ${error.requestOptions.method} ${error.requestOptions.uri}');
+          print('❌ Status Code: ${error.response?.statusCode}');
+          print('❌ Error Message: ${error.message}');
+          print('❌ Error Response: ${error.response?.data}');
+          return handler.next(error);
         },
       ),
     );

@@ -38,4 +38,5 @@ abstract class AuthRepository {
   Future<void> logout();
   Future<ApprovalStatusModel> checkApprovalStatus({required String email});
   Future<BaseUserModel?> getAuthenticatedUser();
+  Future<bool> hasStoredToken();
 }

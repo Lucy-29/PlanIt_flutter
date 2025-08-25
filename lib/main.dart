@@ -1,5 +1,6 @@
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/screens/login_page.dart';
+import 'package:ems_1/features/auth/data/models/company_user_model.dart';
 import 'package:ems_1/features/company/presentation/screens/company_events_screen.dart';
 import 'package:ems_1/features/company/presentation/cubit/profile/company_profile_cubit.dart';
 import 'package:ems_1/features/company/presentation/cubit/events/company_events_cubit.dart';
@@ -94,8 +95,11 @@ class _AppRouterState extends State<AppRouter> {
           return BlocBuilder<AuthCubit, AuthState>(
             builder: (context, authState) {
               if (authState is Authenticated) {
-                if (authState.user.type == 'provider' || authState.user.type == 'company') {
+                if (authState.user.type == 'provider' && authState.user is CompanyUserModel) {
                   return const CompanyScreens();
+                } else if (authState.user.type == 'provider') {
+                  // Individual providers go to provider screens
+                  return const UserScreens(); // Replace with ProviderScreens when you create it
                 } else {
                   return const UserScreens();
                 }

@@ -1,7 +1,5 @@
 import 'package:ems_1/core/service_locator/service_locator.dart';
 import 'package:ems_1/features/auth/presentation/screens/signup_options_page.dart';
-import 'package:ems_1/features/home/presentation/screens/user_home_screen.dart';
-import 'package:ems_1/features/home/presentation/screens/user_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ems_1/features/auth/domain/repositories/auth_repository.dart';
@@ -23,36 +21,7 @@ class LoginPage extends StatelessWidget {
             value: context.read<AuthCubit>(), // ✅ reuse existing instance
           ),
         ],
-        child: BlocListener<AuthCubit, AuthState>(
-          listener: (context, authState) {
-            if (authState is Authenticated) {
-              print(
-                  'HEREEEEE I AMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserScreens()));
-              // final user = authState.user;
-
-              // if (user.type == 'user') {
-              //   Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(builder: (_) => const UserScreens()),
-              //   );
-              // }
-              // else if (user.type == 'provider') {
-              //   Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(builder: (_) => const ProviderHomeScreen()),
-              //   );
-              // } else if (user.type == 'company') {
-              //   Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(builder: (_) => const CompanyHomeScreen()),
-              //   );
-              // }
-            }
-          },
-          child: const LoginForm(),
-        ),
+        child: const LoginForm(),
       ),
     );
   }
@@ -133,12 +102,22 @@ class _LoginFormState extends State<LoginForm> {
         BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccess) {
+              print('Login success: user=${state.loginResponse.user}, token=${state.loginResponse.token}');
               if (state.loginResponse.user != null) {
+                print('User data found, logging in: ${state.loginResponse.user!.type}');
                 context
                     .read<AuthCubit>()
                     .userLoggedIn(state.loginResponse.user!);
               } else {
-                context.read<AuthCubit>().checkAuthentication();
+                print('No user data in login response, checking auth...');
+                // Don't call checkAuthentication() as it needs /user endpoint
+                // Show error instead
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Login response missing user data'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               }
             }
             if (state is LoginFailure) {

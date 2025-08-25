@@ -30,7 +30,13 @@ class CompanyApiDatasource {
     File? profileImage,
   }) async {
     try {
+      print('Updating company profile for ID: $companyId');
+      print('Data: name=$name, email=$email, description=$description, specializations=$specializations');
+      
       FormData formData = FormData();
+      
+      // Add _method override for Laravel compatibility (like user profile)
+      formData.fields.add(const MapEntry('_method', 'PUT'));
       
       if (name != null) formData.fields.add(MapEntry('name', name));
       if (email != null) formData.fields.add(MapEntry('email', email));
@@ -47,9 +53,24 @@ class CompanyApiDatasource {
         ));
       }
 
-      final response = await dio.put('/company/profile/$companyId', data: formData);
+      print('Calling: POST /company/profile/$companyId with ${formData.fields.length} fields (using _method=PUT)');
+      
+      // Use POST with _method override (like user profile)
+      final response = await dio.post(
+        '/company/profile/$companyId', 
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+      
+      print('Update response: ${response.data}');
       return response.data;
     } on DioException catch (e) {
+      print('Profile update error: ${e.response?.data}');
+      print('Status code: ${e.response?.statusCode}');
       final errorMessage = e.response?.data?['message'] ?? 
           'Failed to update company profile';
       throw Exception(errorMessage);
@@ -141,12 +162,20 @@ class CompanyApiDatasource {
     }
   }
 
-  Future<Map<String, dynamic>> getEvents() async {
+  Future<List<dynamic>> getEvents() async {
     try {
       print('Calling: GET /company/events');
       final response = await dio.get('/company/events');
       print('Events response: ${response.data}');
-      return response.data;
+      
+      // Handle different response formats
+      if (response.data is List) {
+        return response.data as List<dynamic>;
+      } else if (response.data is Map && response.data.containsKey('events')) {
+        return response.data['events'] as List<dynamic>;
+      } else {
+        return response.data as List<dynamic>;
+      }
     } on DioException catch (e) {
       print('Events error: ${e.response?.data}');
       print('Full error: ${e.toString()}');

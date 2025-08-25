@@ -152,4 +152,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return null;
     }
   }
+
+  @override
+  Future<bool> hasStoredToken() async {
+    final token = await secureStorageService.getToken();
+    return token != null;
+  }
 }

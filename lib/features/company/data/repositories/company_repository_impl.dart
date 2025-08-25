@@ -15,8 +15,16 @@ class CompanyRepositoryImpl implements CompanyRepository {
   Future<CompanyProfileModel> getProfile(int companyId) async {
     try {
       final response = await apiDatasource.getProfile(companyId);
-      return CompanyProfileModel.fromJson(response['company']);
+      print('Repository GET Profile response: $response');
+      
+      // Handle different response formats
+      if (response.containsKey('company')) {
+        return CompanyProfileModel.fromJson(response['company']);
+      } else {
+        return CompanyProfileModel.fromJson(response);
+      }
     } catch (e) {
+      print('Repository GET Profile error: $e');
       throw Exception('Failed to fetch company profile: ${e.toString()}');
     }
   }
@@ -39,8 +47,16 @@ class CompanyRepositoryImpl implements CompanyRepository {
         specializations: specializations,
         profileImage: profileImage,
       );
-      return CompanyProfileModel.fromJson(response['company']);
+      print('Repository UPDATE Profile response: $response');
+      
+      // Handle different response formats
+      if (response.containsKey('company')) {
+        return CompanyProfileModel.fromJson(response['company']);
+      } else {
+        return CompanyProfileModel.fromJson(response);
+      }
     } catch (e) {
+      print('Repository UPDATE Profile error: $e');
       throw Exception('Failed to update company profile: ${e.toString()}');
     }
   }
@@ -104,14 +120,7 @@ class CompanyRepositoryImpl implements CompanyRepository {
   @override
   Future<List<CompanyEventModel>> getEvents() async {
     try {
-      final response = await apiDatasource.getEvents();
-      // The API datasource returns Map<String, dynamic>
-      final eventsData = response['events'] ?? response['data'] ?? response;
-      
-      List<dynamic> eventsList = [];
-      if (eventsData is List) {
-        eventsList = List<dynamic>.from(eventsData);
-      }
+      final eventsList = await apiDatasource.getEvents();
       return eventsList.map((json) => CompanyEventModel.fromJson(json)).toList();
     } catch (e) {
       throw Exception('Failed to fetch company events: ${e.toString()}');

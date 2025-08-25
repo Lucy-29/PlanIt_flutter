@@ -31,16 +31,16 @@ class CompanyEventModel extends Equatable {
 
   factory CompanyEventModel.fromJson(Map<String, dynamic> json) {
     return CompanyEventModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
+      id: _parseInt(json['id']),
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
       dateTime: DateTime.parse(json['date_time']),
-      location: json['location'],
+      location: json['location'] ?? '',
       image: json['image'],
-      ticketPrice: (json['ticket_price'] ?? 0.0).toDouble(),
-      capacity: json['capacity'] ?? 0,
+      ticketPrice: _parseDouble(json['ticket_price']),
+      capacity: _parseInt(json['capacity']),
       category: json['category'] ?? '',
-      userId: json['user_id'],
+      userId: _parseInt(json['user_id']),
       createdAt: json['created_at'] != null 
           ? DateTime.parse(json['created_at'])
           : null,
@@ -97,6 +97,22 @@ class CompanyEventModel extends Equatable {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ];
     return months[month];
+  }
+
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is double) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
   }
 
   CompanyEventModel copyWith({
