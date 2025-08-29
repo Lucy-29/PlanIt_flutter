@@ -8,7 +8,7 @@ class CompanyModel {
   final String companyImageUrl;
   final String discription;
   final String location;
-  late List<EventCard> events;
+   List<EventCard> events = [];
   late Float rate;
   CompanyModel(
       {required this.companyName,

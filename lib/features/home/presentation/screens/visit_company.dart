@@ -1,12 +1,10 @@
 import 'dart:ui';
-import 'package:ems_1/common/widgets/provider_offer_card.dart';
+import 'package:ems_1/common/widgets/company_card.dart';
 import 'package:ems_1/common/widgets/provider_rate_card.dart';
 import 'package:ems_1/common/widgets/show_guest_alert.dart';
 import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
+import 'package:ems_1/features/home/data/models/company_model.dart';
 import 'package:ems_1/features/home/data/models/provider_rate_model.dart';
-import 'package:ems_1/features/home/data/models/serviceprovider_model.dart';
-import 'package:ems_1/features/home/presentation/cubit/provider_request/request_cubit.dart';
-import 'package:ems_1/features/home/presentation/screens/Reserve_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,19 +13,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class ProviderDetails extends StatefulWidget {
-  final ServiceProviderModel serviceCard1;
-  ProviderDetails({required this.serviceCard1});
+class VisitCompany extends StatefulWidget {
+  final CompanyModel companyModel;
+  VisitCompany({required this.companyModel});
   @override
   State<StatefulWidget> createState() =>
-      ProviderDetailsScreen(serviceCard: serviceCard1);
+      VisitCompanyScreen(companyModel1: companyModel);
 }
 
-class ProviderDetailsScreen extends State<ProviderDetails> {
-  final ServiceProviderModel serviceCard;
-  ProviderDetailsScreen({required this.serviceCard});
+class VisitCompanyScreen extends State<VisitCompany> {
+  final CompanyModel companyModel1;
+  VisitCompanyScreen({required this.companyModel1});
   int selectedIndex = 0;
-  final List<String> tabs = ['ABOUT', 'OFFERS', 'REVIEWS'];
+  final List<String> tabs = ['ABOUT', 'EVENTS', 'REVIEWS'];
   List<ProviderRateCard> rates = [];
   final TextEditingController _commentController = TextEditingController();
   double numOfStars = 0;
@@ -38,7 +36,7 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          serviceCard.providerName,
+          companyModel1.companyName,
           style: TextStyle(fontSize: 25),
         ),
         toolbarHeight: 70,
@@ -74,14 +72,19 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
             child: Center(
               child: CircleAvatar(
                 radius: 60,
-                backgroundImage: NetworkImage(serviceCard.providerImageUrl),
-                backgroundColor: Colors.transparent,
+                backgroundColor: Colors.grey[300],
+                backgroundImage: (companyModel1.companyImageUrl.isNotEmpty)
+                    ? NetworkImage(companyModel1.companyImageUrl)
+                    : null,
+                child: (companyModel1.companyImageUrl.isEmpty)
+                    ? Icon(Icons.business, size: 40, color: Colors.white)
+                    : null,
               ),
             ),
           ),
           Center(
             child: Text(
-              serviceCard.providerName,
+              companyModel1.companyName,
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
             ),
           ),
@@ -107,7 +110,7 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, top: 8),
+            padding: const EdgeInsets.only(left: 100, top: 8),
             child: Row(
               children: [
                 InkWell(
@@ -150,15 +153,15 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: SelectableText(
-                                                  serviceCard.facebookUrl,
+                                                  companyModel1.companyImageUrl,
                                                   maxLines: 1),
                                             ),
                                           ),
                                           IconButton(
                                               onPressed: () {
                                                 Clipboard.setData(ClipboardData(
-                                                    text: serviceCard
-                                                        .facebookUrl));
+                                                    text: companyModel1
+                                                        .companyImageUrl));
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text("copied!"),
@@ -196,15 +199,15 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: SelectableText(
-                                                  serviceCard.instagramUrl,
+                                                  companyModel1.companyImageUrl,
                                                   maxLines: 1),
                                             ),
                                           ),
                                           IconButton(
                                               onPressed: () {
                                                 Clipboard.setData(ClipboardData(
-                                                    text: serviceCard
-                                                        .instagramUrl));
+                                                    text: companyModel1
+                                                        .companyImageUrl));
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text("copied!"),
@@ -242,14 +245,15 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: SelectableText(
-                                                  serviceCard.email,
+                                                  companyModel1.discription,
                                                   maxLines: 1),
                                             ),
                                           ),
                                           IconButton(
                                               onPressed: () {
                                                 Clipboard.setData(ClipboardData(
-                                                    text: serviceCard.email));
+                                                    text: companyModel1
+                                                        .discription));
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text("copied!"),
@@ -287,27 +291,25 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
                     decoration: BoxDecoration(
                         color: Color(0xff206173),
                         borderRadius: BorderRadius.circular(15)),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.person_add_alt_1_rounded,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10,
-                            height: 10,
-                          ),
-                          Text(
-                            "Follow",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 19,
-                                color: Colors.white),
-                          )
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.person_add_alt_1_rounded,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10,
+                          height: 10,
+                        ),
+                        Text(
+                          "Follow",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 19,
+                              color: Colors.white),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -315,34 +317,6 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
                   width: 10,
                   height: 10,
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlocProvider(
-                          create: (_) => RequestCubit(),
-                          child: ReserveProvider( provider: serviceCard),
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 55,
-                    width: 170,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border:
-                            Border.all(color: Color(0xffD99A9A), width: 1.7)),
-                    child: Text("Reserve now",
-                        style: TextStyle(
-                          color: Color(0xffD99A9A),
-                          fontWeight: FontWeight.w300,
-                          fontSize: 19,
-                        )),
-                  ),
-                )
               ],
             ),
           ),
@@ -414,7 +388,7 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
       case 0:
         return _buildAbout();
       case 1:
-        return _buildOffers();
+        return _buildEvents();
       case 2:
         return _buildReviews();
       default:
@@ -427,70 +401,36 @@ class ProviderDetailsScreen extends State<ProviderDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          serviceCard.description,
+          companyModel1.discription,
           style: TextStyle(fontSize: 17),
         ),
         SizedBox(
           height: 30,
         ),
-        Text(
-          "Work Gallery",
-          style: TextStyle(
-              color: Color(0xff206173),
-              fontSize: 18,
-              fontWeight: FontWeight.w400),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(6),
-          child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-            height: 200,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: serviceCard.gallery.length,
-                itemBuilder: (context, i) {
-                  return Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(
-                          image: NetworkImage(serviceCard.gallery[i]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-          ),
-        )
       ],
     );
   }
 
-  Widget _buildOffers() {
-    if (serviceCard.offers.isEmpty) {
+  Widget _buildEvents() {
+    if (companyModel1.events.isEmpty) {
       return Center(
-        child: Text("No offers available"),
-      );
-    } else {
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: serviceCard.offers.length,
-        itemBuilder: (context, i) {
-          return ProviderOfferCard(
-            providerOfferModel: serviceCard.offers[i],
-            providerModel: serviceCard,
-          );
-        },
+        child: Text(
+          "  no events right now",
+          style: TextStyle(fontSize: 16, color: Colors.grey),
+        ),
       );
     }
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: companyModel1.events.length,
+      itemBuilder: (context, i) {
+        return CompanyCard(
+          companyModel: companyModel1,
+        );
+      },
+    );
   }
 
   Widget _buildReviews() {

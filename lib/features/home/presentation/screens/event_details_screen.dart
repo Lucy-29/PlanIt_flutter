@@ -2,6 +2,7 @@ import 'package:ems_1/common/widgets/show_guest_alert.dart';
 import 'package:ems_1/features/auth/presentation/cubit/auth/auth_cubit.dart';
 import 'package:ems_1/features/home/data/models/event_card_model.dart';
 import 'package:ems_1/features/home/presentation/screens/user_screens.dart';
+import 'package:ems_1/features/home/presentation/screens/visit_company.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,7 +85,15 @@ class EventDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                             Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VisitCompany(companyModel: eventCardModel.organizer,)),
+                            );
+
+
+                          },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
